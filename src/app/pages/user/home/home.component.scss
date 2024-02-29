@@ -1,0 +1,26 @@
+.title {
+  font-family: "Black Ops One", sans-serif;
+  color: white;
+}
+
+ion-card.next-session-card {
+  --background: var(--ion-color-primary-shade);
+}
+
+ion-card.next-session-card ion-card-header ion-card-title {
+  font-family: "Black Ops One", sans-serif;
+  font-size: 2rem;
+  color: white;
+}
+
+ion-card.next-session-card ion-card-header ion-card-subtitle {
+  color: lightgrey;
+}
+
+.circular-button {
+  --border-radius: 50%;
+}
+
+ion-card.exercise-preview-card {
+  --background: var(--ion-color-medium);
+}

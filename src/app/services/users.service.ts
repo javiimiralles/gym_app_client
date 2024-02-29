@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { getHeaders } from '../utils/headers.utils';
+import { FormBuilder } from '@angular/forms';
 
 
 @Injectable({
@@ -14,10 +15,14 @@ export class UsersService {
 
   private user: User;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder,) { }
 
-  login(formData: any): Observable<any> {
-    return this.http.post(`${environment.base_url}/login`, formData)
+  login(email: string, password: string): Observable<any> {
+    const loginForm = this.formBuilder.group({
+      email,
+      password
+    });
+    return this.http.post(`${environment.base_url}/login`, loginForm.value)
       .pipe(
         tap(res => {
           localStorage.setItem('token', res['token'] as string);

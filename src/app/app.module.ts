@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
+import { CommonsModule } from './commons/commons.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { PagesModule } from './pages/pages.module';
     HttpClientModule,
 
     AuthModule,
-    PagesModule
+    PagesModule,
+    CommonsModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

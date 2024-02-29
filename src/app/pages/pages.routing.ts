@@ -18,7 +18,7 @@ const routes: Routes = [
     children: [
       /********** Inicio *************/
       { path: 'home', component: HomeComponent, data: {
-                                                  titulo: 'Tu siguiente sesión',
+                                                  title: 'Inicio',
                                                   backButtonUrl: ''
                                                 }},
       { path: '**', redirectTo: 'home' }

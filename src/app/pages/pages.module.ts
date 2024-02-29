@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutComponent } from '../layouts/admin-layout/admin-layout.component';
 
 import { UserModule } from './user/user.module';
+import { CommonsModule } from '../commons/commons.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserModule } from './user/user.module';
     FormsModule,
     ReactiveFormsModule,
 
-    UserModule
+    UserModule,
+    CommonsModule
   ]
 })
 export class PagesModule { }

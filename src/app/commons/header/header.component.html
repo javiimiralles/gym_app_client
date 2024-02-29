@@ -1,0 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="backButtonUrl != ''" slot="start">
+      <ion-button id="back-button" [routerLink]="backButtonUrl">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title><strong>{{ title }}</strong></ion-title>
+  </ion-toolbar>
+</ion-header>

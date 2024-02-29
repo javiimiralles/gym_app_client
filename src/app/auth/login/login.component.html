@@ -1,3 +1,26 @@
-<p>
-  login works!
-</p>
+<div class="parent ion-padding">
+  <div class="child">
+    <ion-input
+      id="email"
+      class="ion-margin-bottom custom-input"
+      type="email"
+      label="Email"
+      labelPlacement="floating"
+      errorText="Email inválido"
+      [(ngModel)]="email"
+      ></ion-input>
+    <ion-input
+      id="password"
+      class="ion-margin-bottom custom-input"
+      type="password"
+      label="Contraseña"
+      labelPlacement="floating"
+      errorText="La contraseña es obligatoria"
+      [(ngModel)]="password"
+      ></ion-input>
+    <ion-button class="button-icon-right ion-margin-top" color="primary" expand="block" (click)="submit()">
+      <ion-spinner *ngIf="waiting" name="bubbles" class="ion-margin-end"></ion-spinner>
+      Continuar <ion-icon name="chevron-forward"></ion-icon>
+    </ion-button>
+  </div>
+</div>
