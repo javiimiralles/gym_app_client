@@ -1,32 +1,40 @@
-<div class="ion-padding">
-  <h1 class="title">Tu próxima sesión</h1>
+<div *ngIf="nextSession">
+  <div class="ion-padding">
+    <h1 class="title">Tu próxima sesión</h1>
+  </div>
+
+  <ion-card class="next-session-card">
+    <ion-card-header>
+      <ion-card-title>{{ nextSession.name }}</ion-card-title>
+      <ion-card-subtitle><ion-chip color="warning">{{ totalSets }} SERIES</ion-chip></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content class="ion-text-end">
+      <ion-button color="secondary" slot="icon-only" class="circular-button">
+        <ion-icon name="play"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let exercise of exercises; let i = index" class="exercise-preview-card">
+    <ion-card-header>
+      <div class="flex-container">
+        <ion-card-title style="color: white;">{{ exercise.name }}</ion-card-title>
+        <div>
+          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" name="flash"></ion-icon>
+          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" [name]="exercise.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" [name]="exercise.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        </div>
+      </div>
+    </ion-card-header>
+    <ion-card-content class="flex-container">
+      <ion-chip color="warning">{{ sets[i] }} SERIES</ion-chip>
+      <ion-chip color="mediu">{{ nextSession.exercises[i].repetitions }} REPS</ion-chip>
+    </ion-card-content>
+  </ion-card>
 </div>
 
-<ion-card class="next-session-card">
-  <ion-card-header>
-    <ion-card-title>Torso A</ion-card-title>
-    <ion-card-subtitle>10 ejercicios</ion-card-subtitle>
-  </ion-card-header>
-  <ion-card-content class="ion-text-end">
-    <ion-button color="secondary" slot="icon-only" class="circular-button">
-      <ion-icon name="play"></ion-icon>
-    </ion-button>
-  </ion-card-content>
-</ion-card>
-
-<ion-card class="exercise-preview-card">
-  <ion-card-header>
-    <div class="flex-container">
-      <ion-card-title style="color: white;">Press banca</ion-card-title>
-      <div>
-        <ion-icon color="success" name="flash"></ion-icon>
-        <ion-icon color="success" name="flash-outline"></ion-icon>
-        <ion-icon color="success" name="flash-outline"></ion-icon>
-      </div>
-    </div>
-  </ion-card-header>
-  <ion-card-content class="flex-container">
-    <ion-chip color="warning">3 SERIES</ion-chip>
-    <ion-chip color="mediu">10-12 REPS</ion-chip>
-  </ion-card-content>
-</ion-card>
+<div *ngIf="!nextSession" class="no-session ion-padding ion-text-center">
+  <h1>
+    No tienes ninguna rutina activa
+  </h1>
+</div>

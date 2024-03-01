@@ -7,7 +7,6 @@ import { User } from '../models/user.model';
 import { getHeaders } from '../utils/headers.utils';
 import { FormBuilder } from '@angular/forms';
 
-
 @Injectable({
   providedIn: 'root'
 })
