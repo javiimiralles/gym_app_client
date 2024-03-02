@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="light" (click)="closeModal()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Resumen de la sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-textarea label="Notas" labelPlacement="floating" rows="10" class="custom-input" [(ngModel)]="note"></ion-textarea>
+  <ion-card class="exercise-preview-card" *ngFor="let exercise of workout.exercises; let i = index">
+    <ion-card-header>
+      <div class="flex-container">
+        <div class="ion-text-left">
+          <ion-card-title  style="color: white;">{{ names[i] }}</ion-card-title>
+        </div>
+        <div class="ion-text-end">
+          <ion-icon [color]="getDifficultyColor(difficulties[i])" name="flash"></ion-icon>
+          <ion-icon [color]="getDifficultyColor(difficulties[i])" [name]="difficulties[i] !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="getDifficultyColor(difficulties[i])" [name]="difficulties[i] === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        </div>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="flex-container">
+        <ion-chip color="warning">{{ exercise.sets.length }} SERIES</ion-chip>
+        <ion-chip color="mediu">{{ expectedRepetitions[i] }} REPS</ion-chip>
+      </div>
+      <div class="exercise-form-container">
+        <ion-row *ngFor="let set of exercise.sets; let j = index" class="ion-align-items-center">
+          <ion-col>
+            <ion-label>{{ set.repetitions }} REPS</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label>{{ set.weight }} KG</ion-label>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-button color="success" expand="block" (click)="createWorkout()"><ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar</ion-button>
+</ion-content>

@@ -1,6 +1,6 @@
 <div *ngIf="nextSession">
   <div class="ion-padding">
-    <h1 class="title">Tu próxima sesión</h1>
+    <h2 class="title">Tu próxima sesión</h2>
   </div>
 
   <ion-card class="next-session-card">
@@ -9,7 +9,7 @@
       <ion-card-subtitle><ion-chip color="warning">{{ totalSets }} SERIES</ion-chip></ion-card-subtitle>
     </ion-card-header>
     <ion-card-content class="ion-text-end">
-      <ion-button color="secondary" slot="icon-only" class="circular-button">
+      <ion-button color="secondary" slot="icon-only" class="circular-button" (click)="startWorkout()">
         <ion-icon name="play"></ion-icon>
       </ion-button>
     </ion-card-content>

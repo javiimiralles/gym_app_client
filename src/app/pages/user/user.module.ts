@@ -5,13 +5,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
+import { WorkoutComponent } from './workouts/workout/workout.component';
+import { WorkoutSummaryModalComponent } from './workouts/workout/workout-summary-modal/workout-summary-modal.component';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    WorkoutComponent,
+    WorkoutSummaryModalComponent
   ],
   exports: [
-    HomeComponent
+    HomeComponent,
+    WorkoutComponent
   ],
   imports: [
     IonicModule,

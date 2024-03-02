@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Session } from 'src/app/models/session.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
@@ -18,7 +19,8 @@ export class HomeComponent  implements OnInit {
 
   constructor(
     private exceptionsService: ExceptionsService,
-    private routinesService: RoutinesService
+    private routinesService: RoutinesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -37,6 +39,10 @@ export class HomeComponent  implements OnInit {
     })
   }
 
+  startWorkout() {
+    this.router.navigate(['/user/workout-in-progress/new'], { queryParams: { sessionId: this.nextSession.uid } });
+  }
+
   getDifficultyColor(difficulty: string) {
     switch(difficulty) {
       case 'BAJA':
@@ -47,4 +53,5 @@ export class HomeComponent  implements OnInit {
         return 'danger';
     }
   }
+
 }

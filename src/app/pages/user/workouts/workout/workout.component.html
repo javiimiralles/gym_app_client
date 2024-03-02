@@ -1,0 +1,52 @@
+<div class="ion-padding flex-container">
+  <h2 class="title">{{ session.name }}</h2>
+  <ion-button color="light" slot="icon-only" fill="clear" (click)="cancelWorkout()">
+    <ion-icon name="close"></ion-icon>
+  </ion-button>
+</div>
+
+<!--=============== Cards de los ejercicios ====================-->
+<form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="exercises">
+    <div *ngFor="let exerciseFormGroup of exercisesFormArray.controls; let i = index" [formGroupName]="i">
+      <ion-card class="exercise-preview-card" [class.open]="formVisibility[i]" (click)="toggleForm($event, i)">
+        <ion-card-header>
+          <div class="flex-container">
+            <ion-card-title style="color: white;">{{ exercises[i].name }}</ion-card-title>
+            <div>
+              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" name="flash"></ion-icon>
+              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" [name]="exercises[i].difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" [name]="exercises[i].difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="flex-container">
+            <ion-chip color="warning">{{ sets[i] }} SERIES</ion-chip>
+            <ion-chip color="mediu">{{ session.exercises[i].repetitions }} REPS</ion-chip>
+          </div>
+          <!-- Formulario -->
+          <div formArrayName="sets" [class.open]="formVisibility[i]" class="exercise-form-container" (click)="$event.stopPropagation()">
+            <ion-row *ngFor="let setControl of exerciseFormGroup.get('sets')['controls']; let j = index" [formGroupName]="j" class="ion-align-items-center">
+              <ion-col size="4">
+                <ion-input formControlName="repetitions" type="number" placeholder="" class="custom-input"></ion-input>
+              </ion-col>
+              <ion-col size="2">
+                REPS
+              </ion-col>
+              <ion-col size="4">
+                <ion-input formControlName="weight" type="number" placeholder="" class="custom-input"></ion-input>
+              </ion-col>
+              <ion-col size="2">
+                KG
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  <div class="ion-padding">
+    <ion-button color="success" expand="block" type="ngSubmit" [disabled]="!workoutForm.valid">Finalizar</ion-button>
+  </div>
+</form>

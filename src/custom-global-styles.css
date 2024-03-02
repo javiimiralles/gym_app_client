@@ -16,17 +16,25 @@
   width: 100% !important;
 }
 
+.text-danger {
+  color: var(--ion-color-danger);
+}
+
+.text-light {
+  color: var(--ion-color-light);
+}
+
 /* Header */
 ion-toolbar {
   --background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
   color: white;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 /* Inputs */
-ion-input.custom-input {
-  --background: var(--ion-color-medium);
+ion-input.custom-input, ion-textarea.custom-input {
+  --background: var(--ion-color-medium-tint);
   --color: rgba(221, 221, 221, 0.8);
   --padding-start: 10px;
   --padding-end: 10px;
@@ -66,4 +74,25 @@ ion-button {
 /* Cards */
 ion-card {
   border-radius: 15px;
+}
+
+ion-card.exercise-preview-card {
+  --background: var(--ion-color-medium);
+}
+
+/* Alerts */
+ion-alert.custom-alert {
+  --background: var(--ion-color-medium);
+}
+
+.custom-alert .alert-head .alert-title, .custom-alert .alert-head .alert-sub-title {
+  color: white;
+}
+
+button.alert-button.alert-button-role-confirm {
+  color: lightgray;
+}
+
+button.alert-button.alert-button-role-cancel {
+  color: var(--ion-color-danger);
 }

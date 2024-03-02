@@ -5,6 +5,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 import { AdminLayoutComponent } from '../layouts/admin-layout/admin-layout.component';
 import { HomeComponent } from './user/home/home.component';
+import { WorkoutComponent } from './user/workouts/workout/workout.component';
 
 const routes: Routes = [
   /*============== RUTAS ADMIN =============*/
@@ -19,6 +20,11 @@ const routes: Routes = [
       /********** Inicio *************/
       { path: 'home', component: HomeComponent, data: {
                                                   title: 'Inicio',
+                                                  backButtonUrl: ''
+                                                }},
+        /********** Inicio *************/
+      { path: 'workout-in-progress/:id', component: WorkoutComponent, data: {
+                                                  title: 'Entrenamiento',
                                                   backButtonUrl: ''
                                                 }},
       { path: '**', redirectTo: 'home' }
