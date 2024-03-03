@@ -9,7 +9,6 @@ import { SessionsService } from 'src/app/services/sessions.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { WorkoutsService } from 'src/app/services/workouts.service';
 import { ExerciseWorkoutInterface } from 'src/app/interfaces/exercise-workout.interface';
-import { ToastService } from 'src/app/services/toast.service';
 import { WorkoutSummaryModalComponent } from './workout-summary-modal/workout-summary-modal.component';
 
 @Component({
@@ -28,6 +27,7 @@ export class WorkoutComponent  implements OnInit {
   difficulties: string[] = [];
   workoutId: string;
   workout: Workout;
+  lastWorkout: Workout;
 
   formVisibility: boolean[] = [];
   workoutForm: FormGroup;
@@ -40,6 +40,7 @@ export class WorkoutComponent  implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private modalController: ModalController,
+    private workoutsService: WorkoutsService
   ) {
     this.initForm();
   }
@@ -57,6 +58,7 @@ export class WorkoutComponent  implements OnInit {
     this.sessionsService.getSessionById(id).subscribe({
       next: (res) => {
         this.session = res['session'];
+        this.loadLastWorkout();
         for(let itemExercise of this.session.exercises) {
           this.exercises.push(itemExercise.exercise as Exercise);
           this.sets.push(itemExercise.sets);
@@ -67,6 +69,17 @@ export class WorkoutComponent  implements OnInit {
           this.difficulties.push((itemExercise.exercise as Exercise).difficulty);
         }
         this.formVisibility = this.exercises.map(() => false);
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  loadLastWorkout() {
+    this.workoutsService.getLastWorkout(this.session.uid).subscribe({
+      next: (res) => {
+        this.lastWorkout = res['workout'];
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
@@ -122,7 +135,12 @@ export class WorkoutComponent  implements OnInit {
 
   toggleForm(event: Event, index: number): void {
     event.stopPropagation();
-    this.formVisibility[index] = !this.formVisibility[index];
+    if(this.formVisibility[index]) {
+      this.formVisibility[index] = false;
+    } else {
+      this.formVisibility = this.exercises.map(() => false);
+      this.formVisibility[index] = true;
+    }
   }
 
   getDifficultyColor(difficulty: string) {

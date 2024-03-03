@@ -1,0 +1,9 @@
+<ion-card class="routine-card" *ngFor="let routine of routines">
+  <ion-card-header>
+    <ion-card-title>{{ routine.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content class="flex-container">
+    <ion-chip color="secondary">{{ routine.sessions.length }} SESIONES</ion-chip>
+    <ion-chip *ngIf="routine.active" color="success"><ion-icon class="ion-margin-end" name="checkmark-done-outline"></ion-icon> ACTIVA</ion-chip>
+  </ion-card-content>
+</ion-card>

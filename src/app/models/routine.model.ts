@@ -4,6 +4,8 @@ export class Routine {
   constructor(
     public uid: string,
     public name?: string,
+    public description?: string,
+    public difficulty?: string,
     public sessions?: string[] | Session[],
     public iterator?: number,
     public active?: boolean,

@@ -13,6 +13,14 @@ export class RoutinesService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
+  getRoutineById(id: string) {
+    return this.http.get(`${environment.base_url}/routines/${id}`, getHeaders());
+  }
+
+  getRoutines(text: string) {
+    return this.http.get(`${environment.base_url}/routines?userId=${this.userId}&text=${text}`, getHeaders());
+  }
+
   getNextSession() {
     return this.http.get(`${environment.base_url}/routines/next-session/${this.userId}`, getHeaders());
   }

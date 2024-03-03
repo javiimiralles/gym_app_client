@@ -80,6 +80,28 @@ ion-card.exercise-preview-card {
   --background: var(--ion-color-medium);
 }
 
+ion-card.routine-card {
+  background: var(--ion-color-medium);
+  border-radius: 10px;
+}
+
+ion-card.card-image {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+ion-card.card-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+
 /* Alerts */
 ion-alert.custom-alert {
   --background: var(--ion-color-medium);

@@ -26,11 +26,13 @@ export class HomeComponent  implements OnInit {
   ngOnInit() {
     this.routinesService.getNextSession().subscribe({
       next: (res) => {
-        this.nextSession = res['nextSession'];
-        for(let itemExercise of this.nextSession.exercises) {
-          this.exercises.push(itemExercise.exercise as Exercise);
-          this.sets.push(itemExercise.sets);
-          this.totalSets += itemExercise.sets;
+        if(res['nextSession']) {
+          this.nextSession = res['nextSession'];
+          for(let itemExercise of this.nextSession.exercises) {
+            this.exercises.push(itemExercise.exercise as Exercise);
+            this.sets.push(itemExercise.sets);
+            this.totalSets += itemExercise.sets;
+          }
         }
       },
       error: (err) => {

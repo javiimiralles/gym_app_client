@@ -15,6 +15,10 @@ export class WorkoutsService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
+  getLastWorkout(sessionId: string) {
+    return this.http.get(`${environment.base_url}/workouts/last-workout/${sessionId}`, getHeaders());
+  }
+
   createWorkout(workout: Workout) {
     workout.date = formatDate(new Date());
     workout.user = this.userId;
