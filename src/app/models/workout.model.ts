@@ -1,4 +1,4 @@
-import { ExerciseWorkoutInterface } from "../interfaces/exercise-workout.interface";
+import { ExerciseWorkoutInterface } from "../interfaces/exercises.interface";
 import { Exercise } from "./exercise.model";
 import { Session } from "./session.model";
 

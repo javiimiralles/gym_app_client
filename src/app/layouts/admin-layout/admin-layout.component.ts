@@ -19,8 +19,10 @@ export class AdminLayoutComponent  implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
-        this.hideTabs = event.url.includes('/user/workout-in-progress');
-        this.hideHeader = event.url.includes('/user/workout-in-progress');
+        const url = event.url;
+        this.hideTabs = url.includes('/user/workout-in-progress') ||
+                        url === '/user/routine' ||
+                        url.includes('/user/session');
       });
   }
 

@@ -7,3 +7,9 @@ export interface ExerciseWorkoutInterface {
     weight: number
   }]
 }
+
+export interface ExerciseSessionInterface {
+  exercise: string | Exercise,
+  sets: number,
+  repetitions: string
+}

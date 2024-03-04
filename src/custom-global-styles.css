@@ -6,10 +6,6 @@
 }
 
 /* Estilos generales */
-:root {
-  --ion-background-color: var(--ion-color-dark);
-}
-
 .flex-container {
   display: flex !important;
   justify-content: space-between !important;
@@ -24,6 +20,15 @@
   color: var(--ion-color-light);
 }
 
+.center-text {
+  text-align: center;
+  color: lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
 /* Header */
 ion-toolbar {
   --background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
@@ -33,7 +38,7 @@ ion-toolbar {
 }
 
 /* Inputs */
-ion-input.custom-input, ion-textarea.custom-input {
+ion-input.custom-input, ion-textarea.custom-input, ion-searchbar.custom-input {
   --background: var(--ion-color-medium-tint);
   --color: rgba(221, 221, 221, 0.8);
   --padding-start: 10px;
@@ -42,7 +47,7 @@ ion-input.custom-input, ion-textarea.custom-input {
   --border-color: transparent;
 }
 
-.ion-valid.sc-ion-input-md-h {
+.ion-valid.sc-ion-input-md-h, .textarea-highlight.sc-ion-textarea-md {
   --highlight-color: none;
 }
 
@@ -50,15 +55,13 @@ ion-input.custom-input, ion-textarea.custom-input {
   display: none;
 }
 
-ion-input.custom-input.has-focus {
-  --background: var(--ion-color-primary-shade);
+ion-input.custom-input.has-focus, ion-textarea.custom-input.has-focus {
+  --background: var(--ion-color-secondary-shade);
 }
 
 /* Buttons */
 ion-button {
   --border-radius: 15px;
-  --padding-top: 15px;
-  --padding-bottom: 15px;
 }
 
 .button-icon-right {
@@ -117,4 +120,12 @@ button.alert-button.alert-button-role-confirm {
 
 button.alert-button.alert-button-role-cancel {
   color: var(--ion-color-danger);
+}
+
+/* Boton flotante */
+ion-fab {
+  margin-bottom: 60px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }

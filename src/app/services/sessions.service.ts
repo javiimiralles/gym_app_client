@@ -10,6 +10,8 @@ import { Session } from '../models/session.model';
 })
 export class SessionsService {
 
+  sessionsPrewiew: Session[] = []; // para la creacion/edicion de rutinas
+
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
   getSessionById(id: string) {

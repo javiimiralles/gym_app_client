@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis rutinas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-card class="routine-card" *ngFor="let routine of routines">
   <ion-card-header>
     <ion-card-title>{{ routine.name }}</ion-card-title>
@@ -7,3 +13,9 @@
     <ion-chip *ngIf="routine.active" color="success"><ion-icon class="ion-margin-end" name="checkmark-done-outline"></ion-icon> ACTIVA</ion-chip>
   </ion-card-content>
 </ion-card>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button color="secondary" (click)="goToRoutineView(true, 0, null)">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

@@ -9,6 +9,8 @@ import { WorkoutComponent } from './user/workouts/workout/workout.component';
 import { WorkoutsListComponent } from './user/workouts/workouts-list/workouts-list.component';
 import { RoutinesListComponent } from './user/routines/routines-list/routines-list.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { SessionComponent } from './user/sessions/session/session.component';
+import { RoutineComponent } from './user/routines/routine/routine.component';
 
 const routes: Routes = [
   /*============== RUTAS ADMIN =============*/
@@ -35,8 +37,17 @@ const routes: Routes = [
                                                   backButtonUrl: ''
                                                 }},
       /********** Routines *************/
+      { path: 'routine', component: RoutineComponent, data: {
+                                                  title: 'Rutina',
+                                                  backButtonUrl: ''
+                                                }},
       { path: 'routines-list', component: RoutinesListComponent, data: {
                                                   title: 'Mis rutinas',
+                                                  backButtonUrl: ''
+                                                }},
+      /********** Sessions *************/
+      { path: 'session/:index', component: SessionComponent, data: {
+                                                  title: 'Sesión',
                                                   backButtonUrl: ''
                                                 }},
       /********** Profile *************/

@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Sesión {{ sessionIndex + 1 }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="ion-padding">
+  <div class="flex-container ion-margin-bottom">
+    <ion-button class="ion-text-end" color="success" [disabled]="exercises.length === 0 || name == null || name === ''" (click)="goToRoutine()">
+      <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+    </ion-button>
+  </div>
+  <ion-input class="custom-input" label="Nombre *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
+</div>
+
+<ion-card *ngFor="let item of exercises; let i = index" class="exercise-preview-card">
+  <ion-card-header>
+    <div class="flex-container">
+      <ion-card-title style="color: white;">{{ item.exercise['name'] }}</ion-card-title>
+      <div>
+        <ion-icon [color]="item.exercise['difficulty'] === 'BAJA' ? 'success' : item.exercise['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+        <ion-icon [color]="item.exercise['difficulty'] === 'BAJA' ? 'success' : item.exercise['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" [name]="item.exercise['difficulty'] !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+        <ion-icon [color]="item.exercise['difficulty'] === 'BAJA' ? 'success' : item.exercise['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" [name]="item.exercise['difficulty'] === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+      </div>
+    </div>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2">
+        <ion-input type="number" class="custom-input" [value]="item.sets" (ionInput)="onSetsInputChange($event, i)"></ion-input>
+      </ion-col>
+      <ion-col size="3">
+        SERIES
+      </ion-col>
+      <ion-col size="2">
+        <ion-input type="number" class="custom-input" [value]="getRepsInputValue(item.repetitions, true)" (ionInput)="onRepetitionsInputChange($event, i, true)"></ion-input>
+      </ion-col>
+      <ion-col size="1">-</ion-col>
+      <ion-col size="2">
+        <ion-input type="number" class="custom-input" [value]="getRepsInputValue(item.repetitions, false)" (ionInput)="onRepetitionsInputChange($event, i, false)"></ion-input>
+      </ion-col>
+      <ion-col size="2">
+        REPS
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+
+<div class="ion-padding">
+  <ion-button class="ion-margin-top" color="success" expand="block" (click)="openExerxisesListModal()">
+    <ion-icon class="ion-margin-end" name="add"></ion-icon> Añadir ejercicio
+  </ion-button>
+</div>
+

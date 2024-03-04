@@ -10,6 +10,7 @@ import { UsersService } from './users.service';
 export class RoutinesService {
 
   userId: string = this.usersService.uid;
+  creatingRoutine: boolean;
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 

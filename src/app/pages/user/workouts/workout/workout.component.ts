@@ -8,8 +8,9 @@ import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { SessionsService } from 'src/app/services/sessions.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { WorkoutsService } from 'src/app/services/workouts.service';
-import { ExerciseWorkoutInterface } from 'src/app/interfaces/exercise-workout.interface';
+import { ExerciseWorkoutInterface } from 'src/app/interfaces/exercises.interface';
 import { WorkoutSummaryModalComponent } from './workout-summary-modal/workout-summary-modal.component';
+import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
 
 @Component({
   selector: 'app-workout',
@@ -144,14 +145,7 @@ export class WorkoutComponent  implements OnInit {
   }
 
   getDifficultyColor(difficulty: string) {
-    switch(difficulty) {
-      case 'BAJA':
-        return 'success';
-      case 'MEDIA':
-        return 'warning';
-      default:
-        return 'danger';
-    }
+    getDifficultyColor(difficulty);
   }
 
   // Logica de los formularios

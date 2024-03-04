@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Ejercicios</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar class="ion-margin-top ion-margin-bottom custom-input" placeholder="Buscar ejercicios" [debounce]="1000" (ionInput)="onSearchbarChange($event);"></ion-searchbar>
+
+  <div *ngIf="!noResultsFound">
+    <ion-card *ngFor="let exercise of searchResults" class="exercise-preview-card" (click)="addExerciseToSession(exercise)">
+      <ion-card-header>
+        <div class="flex-container">
+          <ion-card-title style="color: white;">{{ exercise.name }}</ion-card-title>
+          <div>
+            <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+            <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercise.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+            <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercise.difficulty=== 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+          </div>
+        </div>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-chip color="success" *ngFor="let muscle of exercise.muscles">{{ muscle }}</ion-chip>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="noResultsFound" class="center-text ion-padding">
+    <h2>No se han encontrado resultados</h2>
+  </div>
+</ion-content>

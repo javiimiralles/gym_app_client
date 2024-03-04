@@ -4,6 +4,7 @@ import { Exercise } from 'src/app/models/exercise.model';
 import { Session } from 'src/app/models/session.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { RoutinesService } from 'src/app/services/routines.service';
+import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
 
 @Component({
   selector: 'app-home',
@@ -46,14 +47,7 @@ export class HomeComponent  implements OnInit {
   }
 
   getDifficultyColor(difficulty: string) {
-    switch(difficulty) {
-      case 'BAJA':
-        return 'success';
-      case 'MEDIA':
-        return 'warning';
-      default:
-        return 'danger';
-    }
+    getDifficultyColor(difficulty);
   }
 
 }

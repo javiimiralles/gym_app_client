@@ -10,6 +10,9 @@ import { WorkoutSummaryModalComponent } from './workouts/workout/workout-summary
 import { WorkoutsListComponent } from './workouts/workouts-list/workouts-list.component';
 import { RoutinesListComponent } from './routines/routines-list/routines-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SessionComponent } from './sessions/session/session.component';
+import { ExercisesListModalComponent } from './sessions/exercises-list-modal/exercises-list-modal.component';
+import { RoutineComponent } from './routines/routine/routine.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { ProfileComponent } from './profile/profile.component';
     WorkoutSummaryModalComponent,
     WorkoutsListComponent,
     RoutinesListComponent,
-    ProfileComponent
+    ProfileComponent,
+    SessionComponent,
+    ExercisesListModalComponent,
+    RoutineComponent
   ],
   exports: [],
   imports: [

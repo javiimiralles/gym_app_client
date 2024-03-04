@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Rutina</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="ion-padding">
+  <div class="flex-container ion-margin-bottom">
+    <ion-button class="ion-text-end" color="success" [disabled]="sessions.length === 0 || name == null || name === ''" (click)="saveRoutine()">
+      <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+    </ion-button>
+  </div>
+  <ion-input class="custom-input" label="Nombre *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
+  <ion-textarea class="custom-input ion-margin-top" label="Descripción" labelPlacement="floating" rows="6" [(ngModel)]="description"></ion-textarea>
+</div>
+
+<ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(i)">
+  <ion-card-header class="flex-container">
+    <ion-card-title>{{ session.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-chip color="danger">{{ session.exercises.length }} EJERCICIOS</ion-chip>
+  </ion-card-content>
+</ion-card>
+
+<div class="ion-padding">
+  <ion-button class="ion-margin-top" color="success" expand="block" (click)="goToSession(sessions.length)">
+    <ion-icon class="ion-margin-end" name="add"></ion-icon> Añadir sesión
+  </ion-button>
+</div>

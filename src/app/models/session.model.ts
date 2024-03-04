@@ -1,3 +1,4 @@
+import { ExerciseSessionInterface } from "../interfaces/exercises.interface";
 import { Exercise } from "./exercise.model";
 
 export class Session {
@@ -6,10 +7,6 @@ export class Session {
     public name?: string,
     public muscles?: string[],
     public difficulty?: string,
-    public exercises?: [{
-      exercise: string | Exercise,
-      sets: number,
-      repetitions: string
-    }]
+    public exercises?: ExerciseSessionInterface[]
   ) {}
 }

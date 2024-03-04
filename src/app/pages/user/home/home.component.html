@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Panel principal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <div *ngIf="nextSession">
   <div class="ion-padding">
     <h2 class="title">Tu próxima sesión</h2>
@@ -33,7 +39,7 @@
   </ion-card>
 </div>
 
-<div *ngIf="!nextSession" class="no-session ion-padding ion-text-center">
+<div *ngIf="!nextSession" class="center-text ion-padding ion-text-center">
   <h1>
     No tienes ninguna rutina activa
   </h1>
