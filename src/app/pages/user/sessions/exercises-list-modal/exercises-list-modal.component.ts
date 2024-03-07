@@ -13,6 +13,7 @@ import { SessionsService } from 'src/app/services/sessions.service';
 })
 export class ExercisesListModalComponent  implements OnInit {
 
+  @Input() sessionId: string;
   @Input() sessionIndex: number;
 
   noResultsFound: boolean = false;
@@ -43,16 +44,22 @@ export class ExercisesListModalComponent  implements OnInit {
   }
 
   addExerciseToSession(exercise: Exercise) {
-    if(!this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises) {
-      this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises = [];
+    if(this.sessionId === 'new') {
+      this.sessionsService.currentSessionPreview.exercises.push({
+        exercise: exercise,
+        sets: 3,
+        repetitions: '10-12'
+      });
+      this.modalController.dismiss(false);
+    } else {
+      this.sessionsService.updateSessionExercises(this.sessionId, exercise.uid, 'add').subscribe({
+        next: () => {
+          this.modalController.dismiss(true);
+        }, error: (err) => {
+          this.exceptionsService.throwError(err);
+        }
+      })
     }
-    const exerciseInterface: ExerciseSessionInterface = {
-      exercise: exercise,
-      sets: 3,
-      repetitions: "10-12"
-    }
-    this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises.push(exerciseInterface);
-    this.modalController.dismiss();
   }
 
   onSearchbarChange(event) {
@@ -61,7 +68,7 @@ export class ExercisesListModalComponent  implements OnInit {
   }
 
   closeModal() {
-    this.modalController.dismiss();
+    this.modalController.dismiss(null);
   }
 
 }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { Routine } from 'src/app/models/routine.model';
-import { Session } from 'src/app/models/session.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { RoutinesService } from 'src/app/services/routines.service';
-import { SessionsService } from 'src/app/services/sessions.service';
 
 @Component({
   selector: 'app-routines-list',
@@ -19,8 +18,8 @@ export class RoutinesListComponent  implements OnInit {
   constructor(
     private exceptionsService: ExceptionsService,
     private routinesService: RoutinesService,
-    private router: Router,
-    private sessionsService: SessionsService
+    private alertController: AlertController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -38,18 +37,55 @@ export class RoutinesListComponent  implements OnInit {
     })
   }
 
-  goToRoutineView(createMode: boolean, sessionIndex: number, routineIndex: number) {
-    this.routinesService.creatingRoutine = createMode;
-    if(createMode) {
-      this.sessionsService.sessionsPrewiew = [];
-      this.sessionsService.sessionsPrewiew.push(new Session(''));
-      this.router.navigateByUrl(`/user/session/${sessionIndex}`);
-    } else {
-      this.sessionsService.sessionsPrewiew = (this.routines[routineIndex].sessions as any[]).map(s => {
-        return { uid: s._id, ...s }
-      });
-      this.router.navigateByUrl(`/user/routine/${this.routines[routineIndex].uid}`);
-    }
+  createRoutine() {
+    this.routinesService.createRoutine(new Routine('')).subscribe({
+      next: (res) => {
+        this.router.navigate(['/user/routine'], { queryParams: { id: res['routine'].uid, mode: 'creating' } });
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  async presentChangeActiveAlert(event: Event, id: string, activating: boolean) {
+    event.stopPropagation();
+    const subHeader = activating ? 'Si tienes otra rutina activa se desactivará' : 'Se reiniciará el progreso de la rutina';
+    const alert = await this.alertController.create({
+      header: `¿Quieres ${activating ? 'activar' : 'desactivar'} esta rutina?`,
+      subHeader,
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: activating ? 'Activar' : 'Desactivar',
+          role: 'confirm',
+          handler: () => {
+            this.changeActiveRoutine(id);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'confirm',
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  changeActiveRoutine(id: string) {
+    this.routinesService.changeActiveRoutine(id).subscribe({
+      next: () => {
+        this.loadRoutines();
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  goToRoutine(id: string) {
+    this.router.navigate(['/user/routine'], { queryParams: { id, mode: 'editing' } });
   }
 
 }

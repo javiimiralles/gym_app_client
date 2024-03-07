@@ -14,5 +14,7 @@ ion-card.next-session-card ion-card-header ion-card-subtitle {
 }
 
 .circular-button {
+  --padding-top: 15px;
+  --padding-bottom: 15px;
   --border-radius: 50%;
 }

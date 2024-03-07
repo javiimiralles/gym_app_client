@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="preventGoBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -11,17 +11,24 @@
 
 <div class="ion-padding">
   <div class="flex-container ion-margin-bottom">
-    <ion-button class="ion-text-end" color="success" [disabled]="sessions.length === 0 || name == null || name === ''" (click)="saveRoutine()">
+    <ion-button class="ion-text-end" color="success" [disabled]="!sessions || sessions.length === 0 || name == null || name === ''" (click)="updateRoutine()">
       <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
     </ion-button>
   </div>
-  <ion-input class="custom-input" label="Nombre *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
+  <ion-input class="custom-input" label="Nombre de la rutina *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
   <ion-textarea class="custom-input ion-margin-top" label="Descripción" labelPlacement="floating" rows="6" [(ngModel)]="description"></ion-textarea>
 </div>
 
-<ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(i)">
-  <ion-card-header class="flex-container">
-    <ion-card-title>{{ session.name }}</ion-card-title>
+<ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(session)">
+  <ion-card-header>
+    <div class="flex-container">
+      <ion-card-title class="ion-text-left">{{ session.name }}</ion-card-title>
+      <div class="ion-text-end">
+        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+      </div>
+    </div>
   </ion-card-header>
   <ion-card-content>
     <ion-chip color="danger">{{ session.exercises.length }} EJERCICIOS</ion-chip>
@@ -29,7 +36,7 @@
 </ion-card>
 
 <div class="ion-padding">
-  <ion-button class="ion-margin-top" color="success" expand="block" (click)="goToSession(sessions.length)">
+  <ion-button class="ion-margin-top" color="success" expand="block" (click)="goToSession('new')">
     <ion-icon class="ion-margin-end" name="add"></ion-icon> Añadir sesión
   </ion-button>
 </div>

@@ -85,7 +85,6 @@ ion-card.exercise-preview-card {
 
 ion-card.routine-card {
   background: var(--ion-color-medium);
-  border-radius: 10px;
 }
 
 ion-card.card-image {

@@ -46,7 +46,7 @@ const routes: Routes = [
                                                   backButtonUrl: ''
                                                 }},
       /********** Sessions *************/
-      { path: 'session/:index', component: SessionComponent, data: {
+      { path: 'session', component: SessionComponent, data: {
                                                   title: 'Sesión',
                                                   backButtonUrl: ''
                                                 }},

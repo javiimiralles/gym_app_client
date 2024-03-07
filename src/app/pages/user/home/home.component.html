@@ -11,8 +11,17 @@
 
   <ion-card class="next-session-card card-image" [style.background-image]="'url(./assets/images/chest.webp)'">
     <ion-card-header>
-      <ion-card-title>{{ nextSession.name }}</ion-card-title>
-      <ion-card-subtitle><ion-chip color="warning">{{ totalSets }} SERIES</ion-chip></ion-card-subtitle>
+      <div class="flex-container">
+        <div class="ion-text-left">
+          <ion-card-title>{{ nextSession.name }}</ion-card-title>
+          <ion-card-subtitle><ion-chip color="warning">{{ totalSets }} SERIES</ion-chip></ion-card-subtitle>
+        </div>
+        <div class="ion-text-end">
+          <ion-icon [color]="nextSession.difficulty === 'BAJA' ? 'success' : nextSession.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+          <ion-icon [color]="nextSession.difficulty === 'BAJA' ? 'success' : nextSession.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="nextSession.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="nextSession.difficulty === 'BAJA' ? 'success' : nextSession.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="nextSession.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        </div>
+      </div>
     </ion-card-header>
     <ion-card-content class="ion-text-end">
       <ion-button color="secondary" slot="icon-only" class="circular-button" (click)="startWorkout()">
@@ -26,9 +35,9 @@
       <div class="flex-container">
         <ion-card-title style="color: white;">{{ exercise.name }}</ion-card-title>
         <div>
-          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" name="flash"></ion-icon>
-          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" [name]="exercise.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
-          <ion-icon [color]="getDifficultyColor(exercise.difficulty)" [name]="exercise.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+          <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercise.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="exercise.difficulty === 'BAJA' ? 'success' : exercise.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercise.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
         </div>
       </div>
     </ion-card-header>

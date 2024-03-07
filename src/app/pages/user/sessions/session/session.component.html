@@ -1,21 +1,21 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button (click)="goToRoutine()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Sesión {{ sessionIndex + 1 }}</ion-title>
+    <ion-title>Añade ejercicios</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <div class="ion-padding">
   <div class="flex-container ion-margin-bottom">
-    <ion-button class="ion-text-end" color="success" [disabled]="exercises.length === 0 || name == null || name === ''" (click)="goToRoutine()">
+    <ion-button class="ion-text-end" color="success" [disabled]="exercises.length === 0 || name == null || name === ''" (click)="saveSession()">
       <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
     </ion-button>
   </div>
-  <ion-input class="custom-input" label="Nombre *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
+  <ion-input class="custom-input" label="Nombre de la sesión *" labelPlacement="floating" [(ngModel)]="name"></ion-input>
 </div>
 
 <ion-card *ngFor="let item of exercises; let i = index" class="exercise-preview-card">

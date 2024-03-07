@@ -1,7 +1,7 @@
 <div class="ion-padding flex-container">
   <h2 class="title">{{ session.name }}</h2>
-  <ion-button color="light" slot="icon-only" fill="clear" (click)="cancelWorkout()">
-    <ion-icon name="close"></ion-icon>
+  <ion-button slot="icon-only" fill="clear" (click)="cancelWorkout()">
+    <ion-icon color="danger" name="close"></ion-icon>
   </ion-button>
 </div>
 
@@ -14,9 +14,9 @@
           <div class="flex-container">
             <ion-card-title style="color: white;">{{ exercises[i].name }}</ion-card-title>
             <div>
-              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" name="flash"></ion-icon>
-              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" [name]="exercises[i].difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
-              <ion-icon [color]="getDifficultyColor(exercises[i].difficulty)" [name]="exercises[i].difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+              <ion-icon [color]="exercises[i].difficulty === 'BAJA' ? 'success' : exercises[i].difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+              <ion-icon [color]="exercises[i].difficulty === 'BAJA' ? 'success' : exercises[i].difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercises[i].difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+              <ion-icon [color]="exercises[i].difficulty === 'BAJA' ? 'success' : exercises[i].difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="exercises[i].difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
             </div>
           </div>
         </ion-card-header>

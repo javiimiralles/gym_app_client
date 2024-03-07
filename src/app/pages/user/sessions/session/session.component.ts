@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ExerciseSessionInterface } from 'src/app/interfaces/exercises.interface';
-import { ExceptionsService } from 'src/app/services/exceptions.service';
-import { RoutinesService } from 'src/app/services/routines.service';
 import { SessionsService } from 'src/app/services/sessions.service';
-import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
 import { ExercisesListModalComponent } from '../exercises-list-modal/exercises-list-modal.component';
+import { ExceptionsService } from 'src/app/services/exceptions.service';
+import { Session } from 'src/app/models/session.model';
+import { Exercise } from 'src/app/models/exercise.model';
+import { RoutinesService } from 'src/app/services/routines.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-session',
@@ -17,43 +19,124 @@ export class SessionComponent  implements OnInit {
 
   name: string;
   exercises: ExerciseSessionInterface[] = [];
-  sessionIndex: number;
-  creatingRoutine: boolean = this.routinesService.creatingRoutine;
+  session: Session;
+  sessionId: string;
+  routineId: string;
+  mode: string;
 
   constructor(
     private sessionsService: SessionsService,
     private activatedRoute: ActivatedRoute,
-    private routinesService: RoutinesService,
     private modalController: ModalController,
-    private router: Router
+    private router: Router,
+    private exceptionsService: ExceptionsService,
+    private routinesService: RoutinesService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
-    this.sessionIndex = Number(this.activatedRoute.snapshot.params['index']);
-    this.initExercises();
+    this.activatedRoute.queryParams.subscribe({
+      next: (params) => {
+        this.sessionId = params['id'];
+        this.routineId = params['routineId'];
+        this.mode = params['mode'];
+        if(this.sessionId !== 'new') {
+          this.loadSession();
+        }
+      }
+    })
   }
 
-  getDifficultyColor(difficulty: string) {
-    getDifficultyColor(difficulty);
+  loadSession() {
+    this.sessionsService.getSessionById(this.sessionId).subscribe({
+      next: (res) => {
+        this.session = res['session'];
+        this.name = this.session.name;
+        this.exercises = this.session.exercises;
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
   }
 
-  goToRoutine() {
-    this.sessionsService.sessionsPrewiew[this.sessionIndex].name = this.name;
-    this.router.navigateByUrl('/user/routine');
+  saveSession() {
+    if(this.sessionId === 'new') {
+      this.createSession();
+    } else {
+      this.updateSession();
+    }
+  }
+
+  createSession() {
+    this.session = new Session('', this.name, null, null, null);
+    this.session.exercises = this.parseExercises();
+
+    this.sessionsService.createSession(this.session).subscribe({
+      next: (res) => {
+        this.routinesService.updateRoutineSessions(this.routineId, res['session'].uid, 'add').subscribe({
+          next: () => {
+            this.toastService.presentToast('Sesión creada', 'success');
+            this.goToRoutine();
+          },
+          error: (err) => {
+            this.exceptionsService.throwError(err);
+          }
+        })
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  updateSession() {
+    this.session.name = this.name;
+    this.session.exercises = this.parseExercises();
+
+    this.sessionsService.updateSession(this.session).subscribe({
+      next: () => {
+        this.toastService.presentToast('Sesión editada', 'success');
+        this.goToRoutine();
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  parseExercises() {
+    const newExercisesArray: ExerciseSessionInterface[] = [];
+    for(let exerciseInterface of this.exercises) {
+      const aux: any = exerciseInterface.exercise; // para la edicion tiene campo _id en vez de uid
+      newExercisesArray.push({
+        exercise: (exerciseInterface.exercise as Exercise).uid || aux._id,
+        sets: exerciseInterface.sets,
+        repetitions: exerciseInterface.repetitions
+      })
+    }
+    return newExercisesArray;
   }
 
   async openExerxisesListModal() {
+    if(this.sessionId === 'new') {
+      this.sessionsService.currentSessionPreview = new Session('', null, null, null, []);
+    }
     const modal = await this.modalController.create({
       component: ExercisesListModalComponent,
       componentProps: {
-        sessionIndex: this.sessionIndex
+        sessionId: this.sessionId
       }
     });
     modal.present();
 
     // esperamos a que se cierre el modal para actualizar la lista de ejercicios
-    await modal.onWillDismiss();
-    this.initExercises();
+    const { data } =  await modal.onWillDismiss();
+    if(data == true) {
+      this.loadSession();
+    } else if(data == false) {
+      this.exercises = this.sessionsService.currentSessionPreview.exercises;
+    }
   }
 
   getRepsInputValue(repsString: string, isMinInput: boolean) {
@@ -65,13 +148,17 @@ export class SessionComponent  implements OnInit {
     }
   }
 
+  goToRoutine() {
+    this.router.navigate(['/user/routine'], { queryParams: { id: this.routineId, mode: this.mode } });
+  }
+
   onSetsInputChange(event: any, index: number) {
     const sets = event.target.value;
-    this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises[index].sets = sets;
+    this.exercises[index].sets = sets;
   }
 
   onRepetitionsInputChange(event: any, index: number, isMinInput: boolean) {
-    const currentReps = this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises[index].repetitions;
+    const currentReps = this.exercises[index].repetitions;
     const repsArray = currentReps.split('-');
     let minReps: number;
     let maxReps: number;
@@ -82,22 +169,7 @@ export class SessionComponent  implements OnInit {
       minReps = Number(repsArray[0]);
       maxReps = event.target.value;
     }
-    if(minReps > maxReps) {
-      this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises[index].repetitions = `${minReps}-${minReps}`;
-    } else if(maxReps < minReps) {
-      this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises[index].repetitions = `${maxReps}-${maxReps}`;
-    } else {
-      this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises[index].repetitions = `${minReps}-${maxReps}`;
-    }
-  }
-
-  initExercises() {
-    if(this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises) {
-      this.exercises = this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises;
-    } else {
-      this.sessionsService.sessionsPrewiew[this.sessionIndex].exercises = [];
-      this.exercises = [];
-    }
+    this.exercises[index].repetitions = `${minReps}-${maxReps}`;
   }
 
 }
