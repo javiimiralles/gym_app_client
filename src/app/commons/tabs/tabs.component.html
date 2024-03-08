@@ -1,18 +1,16 @@
 <div class="custom-tab-bar">
-  <a class="tab-item" routerLink="/user/home" routerLinkActive #rlaHome="routerLinkActive">
+  <a class="tab-item" routerLink="/user/home" routerLinkActive="active" #rlaHome="routerLinkActive">
     <ion-icon *ngIf="rlaHome.isActive; else homeOutline" name="home"></ion-icon>
     <ng-template #homeOutline><ion-icon name="home-outline"></ion-icon></ng-template>
   </a>
-  <a class="tab-item" routerLink="/user/workouts-list" routerLinkActive #rlaWorkouts="routerLinkActive">
+  <a class="tab-item" routerLink="/user/workouts-list" routerLinkActive="active" #rlaWorkouts="routerLinkActive">
     <ion-icon *ngIf="rlaWorkouts.isActive; else calendarOutline" name="calendar"></ion-icon>
     <ng-template #calendarOutline><ion-icon name="calendar-outline"></ion-icon></ng-template>
   </a>
-  <a class="tab-item" routerLink="/user/routines-list" routerLinkActive #rlaRoutine="routerLinkActive">
+  <a class="tab-item" routerLink="/user/routines-list" routerLinkActive="active" #rlaRoutine="routerLinkActive">
     <ion-icon *ngIf="rlaRoutine.isActive; else barbellOutline" name="barbell"></ion-icon>
     <ng-template #barbellOutline><ion-icon name="barbell-outline"></ion-icon></ng-template>
   </a>
-  <a class="tab-item" routerLink="/user/profile" routerLinkActive #rlaProfile="routerLinkActive">
-    <ion-icon *ngIf="rlaProfile.isActive; else profileOutline" name="person"></ion-icon>
-    <ng-template #profileOutline><ion-icon name="person-outline"></ion-icon></ng-template>
-  </a>
 </div>
+
+

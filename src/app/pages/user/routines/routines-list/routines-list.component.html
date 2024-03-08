@@ -23,7 +23,6 @@
       <ion-card-subtitle>{{ routine.sessions.length }} SESIONES</ion-card-subtitle>
     </div>
     <div class="ion-text-end">
-      <!-- <ion-chip color="mediu">{{ routine.sessions.length }} SESIONES</ion-chip> -->
       <ion-chip *ngIf="routine.active" color="success" (click)="presentChangeActiveAlert($event, routine.uid, false)">
         <ion-icon class="ion-margin-end" name="checkmark-done-outline"></ion-icon> ACTIVA
       </ion-chip>
