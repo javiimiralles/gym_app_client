@@ -5,8 +5,6 @@ import { Workout } from 'src/app/models/workout.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WorkoutsService } from 'src/app/services/workouts.service';
-import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
-
 @Component({
   selector: 'app-workout-summary-modal',
   templateUrl: './workout-summary-modal.component.html',
@@ -47,10 +45,6 @@ export class WorkoutSummaryModalComponent  implements OnInit {
         this.exceptionsService.throwError(err);
       }
     })
-  }
-
-  getDifficultyColor(difficulty: string) {
-    getDifficultyColor(difficulty);
   }
 
 }

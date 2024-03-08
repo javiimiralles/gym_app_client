@@ -4,7 +4,6 @@ import { Exercise } from 'src/app/models/exercise.model';
 import { Session } from 'src/app/models/session.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { RoutinesService } from 'src/app/services/routines.service';
-import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
 
 @Component({
   selector: 'app-home',
@@ -44,10 +43,6 @@ export class HomeComponent  implements OnInit {
 
   startWorkout() {
     this.router.navigate(['/user/workout-in-progress/new'], { queryParams: { sessionId: this.nextSession.uid } });
-  }
-
-  getDifficultyColor(difficulty: string) {
-    getDifficultyColor(difficulty);
   }
 
 }

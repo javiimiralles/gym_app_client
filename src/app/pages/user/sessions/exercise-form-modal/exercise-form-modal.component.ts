@@ -4,6 +4,7 @@ import { Exercise } from 'src/app/models/exercise.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { ExercisesService } from 'src/app/services/exercises.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { MuscleEnum } from 'src/app/enums/MuscleEnum';
 
 @Component({
   selector: 'app-exercise-form-modal',
@@ -14,10 +15,7 @@ export class ExerciseFormModalComponent  implements OnInit {
 
   @Input() sessionId: string;
 
-  muscles: string[] = ['PECHO', 'ABDOMINALES', 'DORSALES',
-                      'BICEPS', 'TRICEPS', 'ANTEBRAZOS',
-                      'TRAPECIOS', 'GLUTEOS','GEMELOS',
-                      'ISQUIOS', 'CUADRICEPS', 'HOMBROS'];
+  muscles: string[] = Object.keys(MuscleEnum);
   selectedMuscles: string[] = [];
   muscleError: boolean = false;
 

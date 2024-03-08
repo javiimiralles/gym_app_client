@@ -1,13 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="light" (click)="closeModal()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
+      <ion-button style="color: white;" (click)="closeModal()"><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>Resumen de la sesión</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-textarea label="Notas" labelPlacement="floating" rows="10" class="custom-input" [(ngModel)]="note"></ion-textarea>
+<ion-content>
+  <div class="ion-padding">
+    <ion-textarea label="Notas" labelPlacement="floating" rows="10" class="custom-input" [(ngModel)]="note"></ion-textarea>
+  </div>
   <ion-card class="exercise-preview-card" *ngFor="let exercise of workout.exercises; let i = index">
     <ion-card-header>
       <div class="flex-container">
@@ -15,9 +17,9 @@
           <ion-card-title  style="color: white;">{{ names[i] }}</ion-card-title>
         </div>
         <div class="ion-text-end">
-          <ion-icon [color]="getDifficultyColor(difficulties[i])" name="flash"></ion-icon>
-          <ion-icon [color]="getDifficultyColor(difficulties[i])" [name]="difficulties[i] !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
-          <ion-icon [color]="getDifficultyColor(difficulties[i])" [name]="difficulties[i] === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="difficulties[i] === 'BAJA' ? 'success' : difficulties[i] === 'MEDIA' ? 'warning' : 'danger'"name="flash"></ion-icon>
+          <ion-icon [color]="difficulties[i] === 'BAJA' ? 'success' : difficulties[i] === 'MEDIA' ? 'warning' : 'danger'" [name]="difficulties[i] !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="difficulties[i] === 'BAJA' ? 'success' : difficulties[i] === 'MEDIA' ? 'warning' : 'danger'" [name]="difficulties[i] === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
         </div>
       </div>
     </ion-card-header>
@@ -38,5 +40,9 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <ion-button color="success" expand="block" (click)="createWorkout()"><ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar</ion-button>
+  <div class="ion-padding">
+    <ion-button class="ion-margin-vertical" color="success" expand="block" (click)="createWorkout()">
+      <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+    </ion-button>
+  </div>
 </ion-content>

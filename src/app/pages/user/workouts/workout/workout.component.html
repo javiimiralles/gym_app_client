@@ -9,7 +9,7 @@
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
   <div formArrayName="exercises">
     <div *ngFor="let exerciseFormGroup of exercisesFormArray.controls; let i = index" [formGroupName]="i">
-      <ion-card class="exercise-preview-card" [class.open]="formVisibility[i]" (click)="toggleForm($event, i)">
+      <ion-card [id]="'exercise-' + i" class="exercise-preview-card" [class.open]="formVisibility[i]" (click)="toggleForm($event, i)">
         <ion-card-header>
           <div class="flex-container">
             <ion-card-title style="color: white;">{{ exercises[i].name }}</ion-card-title>

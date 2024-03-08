@@ -5,6 +5,7 @@ import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { ExercisesService } from 'src/app/services/exercises.service';
 import { SessionsService } from 'src/app/services/sessions.service';
 import { ExerciseFormModalComponent } from '../exercise-form-modal/exercise-form-modal.component';
+import { MuscleEnum } from 'src/app/enums/MuscleEnum';
 
 @Component({
   selector: 'app-exercises-list-modal',
@@ -18,9 +19,12 @@ export class ExercisesListModalComponent  implements OnInit {
 
   noResultsFound: boolean = false;
   searchResults: Exercise[] = [];
-  searchText: string ;
+  searchText: string;
+  nResults: number = 10;
   difficulty: string;
   muscle: string;
+
+  muscles: string[] = Object.keys(MuscleEnum);
 
   constructor(
     private exceptionsService: ExceptionsService,
@@ -32,7 +36,7 @@ export class ExercisesListModalComponent  implements OnInit {
   ngOnInit() {}
 
   loadExercises() {
-    this.exercisesService.getExercises(this.searchText, this.difficulty, this.muscle).subscribe({
+    this.exercisesService.getExercises(this.searchText, this.difficulty, this.muscle, this.nResults).subscribe({
       next: (res) => {
         this.searchResults = res['exercises'];
         this.noResultsFound = this.searchResults.length === 0;
@@ -73,8 +77,23 @@ export class ExercisesListModalComponent  implements OnInit {
     modal.present();
   }
 
-  onSearchbarChange(event) {
+  onSearchbarChangeValue(event) {
     this.searchText = event.detail.value;
+    this.loadExercises();
+  }
+
+  onMuscleSelectChangeValue(event) {
+    this.muscle = event.detail.value;
+    this.loadExercises();
+  }
+
+  onDifficultyChangeValue(event) {
+    this.difficulty = event.detail.value;
+    this.loadExercises();
+  }
+
+  loadMoreExercises() {
+    this.nResults += 10;
     this.loadExercises();
   }
 

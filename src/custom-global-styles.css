@@ -42,7 +42,7 @@ ion-toolbar {
 }
 
 /* Inputs */
-ion-input.custom-input, ion-textarea.custom-input, ion-searchbar.custom-input {
+ion-input.custom-input, ion-textarea.custom-input, ion-searchbar.custom-input, ion-item.custom-input {
   --background: var(--ion-color-medium-tint);
   --color: rgba(221, 221, 221, 0.8);
   --padding-start: 10px;
@@ -60,7 +60,7 @@ ion-input.custom-input, ion-textarea.custom-input, ion-searchbar.custom-input {
 }
 
 ion-input.custom-input.has-focus, ion-textarea.custom-input.has-focus {
-  --background: var(--ion-color-secondary-shade);
+  --background: var(--ion-color-primary);
 }
 
 /* Buttons */

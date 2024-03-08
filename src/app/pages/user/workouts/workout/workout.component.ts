@@ -10,7 +10,6 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { WorkoutsService } from 'src/app/services/workouts.service';
 import { ExerciseWorkoutInterface } from 'src/app/interfaces/exercises.interface';
 import { WorkoutSummaryModalComponent } from './workout-summary-modal/workout-summary-modal.component';
-import { getDifficultyColor } from 'src/app/utils/difficulty-color.utils';
 
 @Component({
   selector: 'app-workout',
@@ -142,10 +141,21 @@ export class WorkoutComponent  implements OnInit {
       this.formVisibility = this.exercises.map(() => false);
       this.formVisibility[index] = true;
     }
+    this.checkCompletedExercises();
   }
 
-  getDifficultyColor(difficulty: string) {
-    getDifficultyColor(difficulty);
+  checkCompletedExercises() {
+    const exercisesArray = this.exercisesFormArray;
+    for(let i = 0; i < exercisesArray.length; i++) {
+      const elem = document.getElementById(`exercise-${i}`);
+      if((exercisesArray.at(i) as FormGroup).valid) {
+        if(!elem.classList.contains('done')) {
+          elem.classList.add('done');
+        }
+      } else if(elem.classList.contains('done')) {
+        elem.classList.remove('done');
+      }
+    }
   }
 
   // Logica de los formularios

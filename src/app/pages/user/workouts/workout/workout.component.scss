@@ -4,15 +4,19 @@
 }
 
 ion-card.open {
-  box-shadow: 0px 0px 8px 0px var(--ion-color-primary-shade);
+  box-shadow: 0px 0px 8px 0px var(--ion-color-medium);
 }
 
 .exercise-form-container {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.4s ease-in-out;
+  transition: max-height 0.3s ease-in-out;
 }
 
 .exercise-form-container.open {
   max-height: 500px;
+}
+
+.done {
+  box-shadow: 0px 0px 4px 0px var(--ion-color-success);
 }

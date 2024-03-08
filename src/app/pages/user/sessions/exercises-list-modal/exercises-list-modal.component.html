@@ -9,7 +9,26 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-searchbar class="ion-margin-top ion-margin-bottom custom-input" placeholder="Buscar ejercicios" [debounce]="1000" (ionInput)="onSearchbarChange($event);"></ion-searchbar>
+
+  <ion-searchbar class="ion-margin-top custom-input" placeholder="Buscar ejercicios" [debounce]="1000" (ionInput)="onSearchbarChangeValue($event);"></ion-searchbar>
+  <ion-row class="ion-margin-bottom ">
+    <ion-col size="6">
+      <ion-item class="custom-input">
+        <ion-select placeholder="Músculo" (ionChange)="onMuscleSelectChangeValue($event)">
+          <ion-select-option *ngFor="let muscle of muscles" [value]="muscle">{{ muscle }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item class="custom-input">
+        <ion-select placeholder="Dificultad" (ionChange)="onDifficultyChangeValue($event)">
+          <ion-select-option value="BAJA">Baja</ion-select-option>
+          <ion-select-option value="MEDIA">Media</ion-select-option>
+          <ion-select-option value="ALTA">Alta</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
 
   <div *ngIf="!noResultsFound">
     <ion-card *ngFor="let exercise of searchResults" class="exercise-preview-card" (click)="addExerciseToSession(exercise)">
@@ -27,6 +46,7 @@
         <ion-chip color="success" *ngFor="let muscle of exercise.muscles">{{ muscle }}</ion-chip>
       </ion-card-content>
     </ion-card>
+    <ion-button style="color: white;" *ngIf="searchResults.length > 0 && searchResults.length % 10 == 0" fill="clear" expand="block" (click)="loadExercises()">Ver más</ion-button>
   </div>
 
   <div *ngIf="noResultsFound" class="center-text ion-padding">

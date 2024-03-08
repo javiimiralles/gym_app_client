@@ -14,16 +14,19 @@ export class ExercisesService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
-  getExercises(text: string, difficulty: string, muscle: string) {
+  getExercises(text: string, difficulty: string, muscle: string, results: number) {
     let url = `${environment.base_url}/exercises?userId=${this.userId}`;
     if(text && text !== '') {
       url += `&text=${text}`;
     }
     if(difficulty && difficulty !== '') {
-      url += `&difficulty=${difficulty}`;
+      url += `&difficulty=${difficulty.toUpperCase()}`;
     }
     if(muscle && muscle !== '') {
-      url += `&muscle=${muscle}`;
+      url += `&muscle=${muscle.toUpperCase()}`;
+    }
+    if(results && results > 0) {
+      url += `&results=${results}`
     }
     return this.http.get(url, getHeaders());
   }
