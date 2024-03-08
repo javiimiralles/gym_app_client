@@ -8,8 +8,8 @@
     <ng-template #calendarOutline><ion-icon name="calendar-outline"></ion-icon></ng-template>
   </a>
   <a class="tab-item" routerLink="/user/routines-list" routerLinkActive #rlaRoutine="routerLinkActive">
-    <ion-icon *ngIf="rlaRoutine.isActive; else folderOutline" name="folder-open"></ion-icon>
-    <ng-template #folderOutline><ion-icon name="folder-outline"></ion-icon></ng-template>
+    <ion-icon *ngIf="rlaRoutine.isActive; else barbellOutline" name="barbell"></ion-icon>
+    <ng-template #barbellOutline><ion-icon name="barbell-outline"></ion-icon></ng-template>
   </a>
   <a class="tab-item" routerLink="/user/profile" routerLinkActive #rlaProfile="routerLinkActive">
     <ion-icon *ngIf="rlaProfile.isActive; else profileOutline" name="person"></ion-icon>

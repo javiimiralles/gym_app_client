@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SessionComponent } from './sessions/session/session.component';
 import { ExercisesListModalComponent } from './sessions/exercises-list-modal/exercises-list-modal.component';
 import { RoutineComponent } from './routines/routine/routine.component';
+import { ExerciseFormModalComponent } from './sessions/exercise-form-modal/exercise-form-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { RoutineComponent } from './routines/routine/routine.component';
     ProfileComponent,
     SessionComponent,
     ExercisesListModalComponent,
-    RoutineComponent
+    RoutineComponent,
+    ExerciseFormModalComponent
   ],
   exports: [],
   imports: [

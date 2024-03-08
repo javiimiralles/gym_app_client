@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { Routine } from 'src/app/models/routine.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { RoutinesService } from 'src/app/services/routines.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-routines-list',
@@ -19,7 +20,8 @@ export class RoutinesListComponent  implements OnInit {
     private exceptionsService: ExceptionsService,
     private routinesService: RoutinesService,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,42 @@ export class RoutinesListComponent  implements OnInit {
         this.exceptionsService.throwError(err);
       }
     })
+  }
+
+  deleteRoutine(id: string) {
+    this.routinesService.deleteRoutine(id).subscribe({
+      next: () => {
+        this.toastService.presentToast('Rutina eliminada', 'success');
+        this.loadRoutines();
+      },
+      error: (err) => {
+        this.exceptionsService.throwError(err);
+      }
+    })
+  }
+
+  async presentDeleteRoutineAlert(event: Event, id: string) {
+    event.stopPropagation();
+    const alert = await this.alertController.create({
+      header: '¿Quieres borrar la rutina?',
+      subHeader: 'Se perderán todas las sesiones asociadas',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'Eliminar',
+          role: 'cancel',
+          handler: () => {
+            this.deleteRoutine(id);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'confirm',
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async presentChangeActiveAlert(event: Event, id: string, activating: boolean) {

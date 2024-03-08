@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Nuevo ejercicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Rellena los campos</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input
+        class="custom-input"
+        label="Nombre del ejercicio *"
+        labelPlacement="floating"
+        errorText="Este campo es obligatorio"
+        [(ngModel)]="exercise.name">
+      </ion-input>
+      <div class="input-group">
+        <ion-text>Dificultad:</ion-text>
+        <ion-row>
+          <ion-col>
+            <ion-chip id="low" color="success" (click)="setDifficulty('BAJA')">
+              <ion-icon name="flash"></ion-icon>
+              <ion-label>BAJA</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col>
+            <ion-chip id="medium" color="ligth" (click)="setDifficulty('MEDIA')">
+              <ion-icon name="flash"></ion-icon>
+              <ion-label>MEDIA</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col>
+            <ion-chip id="high" color="ligth" (click)="setDifficulty('ALTA')">
+              <ion-icon name="flash"></ion-icon>
+              <ion-label>ALTA</ion-label>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div class="input-group">
+        <div>
+          <ion-text>Músculo/ s:</ion-text>
+        </div>
+        <div>
+          <ion-text color="danger" *ngIf="muscleError">Selecciona un músculo al menos</ion-text>
+        </div>
+        <ion-row>
+          <ion-col size="6" *ngFor="let muscle of muscles">
+            <ion-chip color="ligth" [id]="muscle" (click)="updateSelectedMuscles(muscle)">{{ muscle }}</ion-chip>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-button class="ion-text-end" color="success" expand="block" [disabled]="selectedMuscles.length === 0 || exercise.name == null || exercise.name === ''" (click)="createExercise()">
+        <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+

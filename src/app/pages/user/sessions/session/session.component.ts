@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ItemReorderEventDetail, ModalController } from '@ionic/angular';
 import { ExerciseSessionInterface } from 'src/app/interfaces/exercises.interface';
 import { SessionsService } from 'src/app/services/sessions.service';
 import { ExercisesListModalComponent } from '../exercises-list-modal/exercises-list-modal.component';
@@ -9,16 +9,18 @@ import { Session } from 'src/app/models/session.model';
 import { Exercise } from 'src/app/models/exercise.model';
 import { RoutinesService } from 'src/app/services/routines.service';
 import { ToastService } from 'src/app/services/toast.service';
+import Sortable from 'sortablejs';
 
 @Component({
   selector: 'app-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
 })
-export class SessionComponent  implements OnInit {
+export class SessionComponent implements OnInit, AfterViewInit {
 
   name: string;
   exercises: ExerciseSessionInterface[] = [];
+  removedExercises: string[] = [];
   session: Session;
   sessionId: string;
   routineId: string;
@@ -31,7 +33,8 @@ export class SessionComponent  implements OnInit {
     private router: Router,
     private exceptionsService: ExceptionsService,
     private routinesService: RoutinesService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -45,6 +48,25 @@ export class SessionComponent  implements OnInit {
         }
       }
     })
+  }
+
+  ngAfterViewInit(): void {
+    const container = document.querySelector('.cards-container');
+    Sortable.create(container, {
+      animation: 200,
+      onEnd: (event) => {
+        const { oldIndex, newIndex } = event;
+
+        // 1. Extrae el elemento movido
+        const [movedElement] = this.exercises.splice(oldIndex, 1);
+        // 2. Inserta el elemento movido en su nueva posición
+        this.exercises.splice(newIndex, 0, movedElement);
+        if(this.sessionId === 'new') {
+          this.sessionsService.currentSessionPreview.exercises = this.exercises;
+        }
+        this.changeDetectorRef.markForCheck();
+      }
+    });
   }
 
   loadSession() {
@@ -91,6 +113,7 @@ export class SessionComponent  implements OnInit {
   }
 
   updateSession() {
+    this.deleteExercises();
     this.session.name = this.name;
     this.session.exercises = this.parseExercises();
 
@@ -103,6 +126,30 @@ export class SessionComponent  implements OnInit {
         this.exceptionsService.throwError(err);
       }
     })
+  }
+
+  removeExercisePreview(index: number, exercise: any) {
+    if(this.sessionId === 'new') {
+      this.sessionsService.currentSessionPreview.exercises.splice(index, 1);
+      this.exercises.splice(index, 1);
+    } else {
+      this.removedExercises.push(exercise._id);
+      this.exercises = (this.exercises as any[]).filter(elem => elem.exercise._id !== exercise._id);
+    }
+  }
+
+  deleteExercises() {
+    for(let exerciseId of this.removedExercises) {
+      this.sessionsService.updateSessionExercises(this.sessionId, exerciseId, 'remove').subscribe({
+        error: (err) => {
+          this.exceptionsService.throwError(err);
+        }
+      })
+    }
+  }
+
+  handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    this.exercises = event.detail.complete(this.exercises);
   }
 
   parseExercises() {
@@ -119,9 +166,6 @@ export class SessionComponent  implements OnInit {
   }
 
   async openExerxisesListModal() {
-    if(this.sessionId === 'new') {
-      this.sessionsService.currentSessionPreview = new Session('', null, null, null, []);
-    }
     const modal = await this.modalController.create({
       component: ExercisesListModalComponent,
       componentProps: {
@@ -136,6 +180,8 @@ export class SessionComponent  implements OnInit {
       this.loadSession();
     } else if(data == false) {
       this.exercises = this.sessionsService.currentSessionPreview.exercises;
+      console.log(this.exercises);
+      this.changeDetectorRef.markForCheck();
     }
   }
 

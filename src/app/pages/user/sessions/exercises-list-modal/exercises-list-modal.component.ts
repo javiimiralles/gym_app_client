@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ExerciseSessionInterface } from 'src/app/interfaces/exercises.interface';
 import { Exercise } from 'src/app/models/exercise.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { ExercisesService } from 'src/app/services/exercises.service';
 import { SessionsService } from 'src/app/services/sessions.service';
+import { ExerciseFormModalComponent } from '../exercise-form-modal/exercise-form-modal.component';
 
 @Component({
   selector: 'app-exercises-list-modal',
@@ -60,6 +60,16 @@ export class ExercisesListModalComponent  implements OnInit {
         }
       })
     }
+  }
+
+  async openExerciseFormModal() {
+    const modal = await this.modalController.create({
+      component: ExerciseFormModalComponent,
+      componentProps: {
+        sessionId: this.sessionId
+      }
+    });
+    modal.present();
   }
 
   onSearchbarChange(event) {

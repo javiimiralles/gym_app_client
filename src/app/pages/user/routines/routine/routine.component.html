@@ -19,21 +19,28 @@
   <ion-textarea class="custom-input ion-margin-top" label="Descripción" labelPlacement="floating" rows="6" [(ngModel)]="description"></ion-textarea>
 </div>
 
-<ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(session)">
-  <ion-card-header>
-    <div class="flex-container">
-      <ion-card-title class="ion-text-left">{{ session.name }}</ion-card-title>
-      <div class="ion-text-end">
-        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
-        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
-        <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+<div class="cards-container">
+  <ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(session)">
+    <ion-card-header>
+      <div class="flex-container ion-align-items-center">
+        <div class="ion-text-left">
+          <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+          <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="session.difficulty === 'BAJA' ? 'success' : session.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="session.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        </div>
+        <div class="ion-text-end">
+          <ion-button color="danger" size="small" fill="clear" (click)="presentDeleteSessionAlert($event, session)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </div>
       </div>
-    </div>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-chip color="danger">{{ session.exercises.length }} EJERCICIOS</ion-chip>
-  </ion-card-content>
-</ion-card>
+      <ion-card-title class="ion-text-left">{{ session.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip color="danger">{{ session.exercises.length }} EJERCICIOS</ion-chip>
+    </ion-card-content>
+  </ion-card>
+</div>
 
 <div class="ion-padding">
   <ion-button class="ion-margin-top" color="success" expand="block" (click)="goToSession('new')">

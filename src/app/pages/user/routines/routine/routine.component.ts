@@ -1,26 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { ExerciseSessionInterface } from 'src/app/interfaces/exercises.interface';
-import { Exercise } from 'src/app/models/exercise.model';
 import { Routine } from 'src/app/models/routine.model';
 import { Session } from 'src/app/models/session.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { RoutinesService } from 'src/app/services/routines.service';
-import { SessionsService } from 'src/app/services/sessions.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { App } from '@capacitor/app';
+import Sortable from 'sortablejs';
+import { SessionsService } from 'src/app/services/sessions.service';
 
 @Component({
   selector: 'app-routine',
   templateUrl: './routine.component.html',
   styleUrls: ['./routine.component.scss'],
 })
-export class RoutineComponent implements OnInit, OnDestroy {
+export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
 
   name: string;
   description: string;
   sessions: Session[] = [];
+  sessionIds: string[] = [];
+  removedSessions: string[] = [];
 
   routineId: string;
   routine: Routine = new Routine('');
@@ -29,12 +30,13 @@ export class RoutineComponent implements OnInit, OnDestroy {
 
   constructor(
     private exceptionsService: ExceptionsService,
-    private sessionsService: SessionsService,
     private router: Router,
     private routinesService: RoutinesService,
     private toastService: ToastService,
     private alertController: AlertController,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef,
+    private sessionsService: SessionsService
   ) { }
 
   ngOnInit() {
@@ -45,10 +47,28 @@ export class RoutineComponent implements OnInit, OnDestroy {
         this.loadRoutine();
       }
     })
-
     // para mostrar el aviso de que perdera su progreso si pulsa en el boton
     // de volver atras del propio movil
     App.addListener('backButton', this.preventGoBack.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    const container = document.querySelector('.cards-container');
+    Sortable.create(container, {
+      animation: 200,
+      onEnd: (event) => {
+        const { oldIndex, newIndex } = event;
+
+        // 1. Extrae el elemento movido
+        const [movedElement] = this.sessions.splice(oldIndex, 1);
+        const [movedElementId] = this.sessionIds.splice(oldIndex, 1);
+        // 2. Inserta el elemento movido en su nueva posición
+        this.sessions.splice(newIndex, 0, movedElement);
+        this.sessionIds.splice(newIndex, 0, movedElementId);
+
+        this.changeDetectorRef.markForCheck();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -62,6 +82,7 @@ export class RoutineComponent implements OnInit, OnDestroy {
         this.name = this.routine.name;
         this.description = this.routine.description;
         this.sessions = this.routine.sessions as Session[];
+        this.sessionIds = (this.sessions as any[]).map(session => session._id);
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
@@ -75,7 +96,42 @@ export class RoutineComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.exceptionsService.throwError(err);
       }
-    })
+    });
+  }
+
+  deleteSessions() {
+    for(let sessionId of this.removedSessions) {
+      this.routinesService.updateRoutineSessions(this.routineId, sessionId, 'remove').subscribe({
+        error: (err) => {
+          this.exceptionsService.throwError(err);
+        }
+      })
+    }
+  }
+
+  async presentDeleteSessionAlert(event: Event, session: any) {
+    event.stopPropagation();
+    const alert = await this.alertController.create({
+      header: '¿Quieres borrar la sesión?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'Eliminar',
+          role: 'cancel',
+          handler: () => {
+            this.sessionIds = this.sessionIds.filter(elem => elem !== session._id);
+            this.removedSessions.push(session._id);
+            this.sessions = this.sessions.filter(elem => elem !== session);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'confirm',
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   // para volver atras hay que confirmar que se perderán los cambios
@@ -107,8 +163,10 @@ export class RoutineComponent implements OnInit, OnDestroy {
 
 
   updateRoutine() {
+    this.deleteSessions(); // elimina definitivamente las sesiones que se hayan eliminado
     this.routine.name = this.name;
     this.routine.description = this.description;
+    this.routine.sessions = this.sessionIds;
     this.routinesService.updateRoutine(this.routine).subscribe({
       next: () => {
         this.toastService.presentToast('Rutina guardada', 'success');
@@ -122,6 +180,9 @@ export class RoutineComponent implements OnInit, OnDestroy {
 
   goToSession(session: any) {
     const id = session === 'new' ? 'new' : session._id;
+    if(id === 'new') {
+      this.sessionsService.currentSessionPreview = new Session('', null, null, null, []);
+    }
     this.router.navigate(['/user/session'], { queryParams: { id, routineId: this.routine.uid, mode: this.mode }});
   }
 

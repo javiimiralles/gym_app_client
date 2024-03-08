@@ -28,7 +28,6 @@ export class SessionsService {
   }
 
   updateSessionExercises(id: string, exerciseId: string, mode: 'add' | 'remove') {
-    console.log(exerciseId);
     const data = { exerciseId, mode };
     return this.http.put(`${environment.base_url}/sessions/update-exercises/${id}`, data, getHeaders());
   }
