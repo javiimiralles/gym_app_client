@@ -23,7 +23,7 @@
         <ion-card-content>
           <div class="flex-container">
             <ion-chip color="warning">{{ sets[i] }} SERIES</ion-chip>
-            <ion-chip color="mediu">{{ session.exercises[i].repetitions }} REPS</ion-chip>
+            <ion-chip color="mediu">{{ session.exercises[i].repetitions }} REPS &nbsp; <ion-text *ngIf="session.exercises[i].dropset" color="success">+DS</ion-text></ion-chip>
           </div>
           <!-- Formulario -->
           <div formArrayName="sets" [class.open]="formVisibility[i]" class="exercise-form-container" (click)="$event.stopPropagation()">

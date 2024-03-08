@@ -11,5 +11,6 @@ export interface ExerciseWorkoutInterface {
 export interface ExerciseSessionInterface {
   exercise: string | Exercise,
   sets: number,
-  repetitions: string
+  repetitions: string,
+  dropset: boolean
 }

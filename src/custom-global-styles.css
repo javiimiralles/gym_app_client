@@ -78,6 +78,12 @@ ion-button {
   margin-left: auto;
 }
 
+.circular-button {
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+  --border-radius: 50%;
+}
+
 /* Cards */
 ion-card {
   border-radius: 15px;

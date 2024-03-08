@@ -159,7 +159,8 @@ export class SessionComponent implements OnInit, AfterViewInit {
       newExercisesArray.push({
         exercise: (exerciseInterface.exercise as Exercise).uid || aux._id,
         sets: exerciseInterface.sets,
-        repetitions: exerciseInterface.repetitions
+        repetitions: exerciseInterface.repetitions,
+        dropset: exerciseInterface.dropset
       })
     }
     return newExercisesArray;
@@ -216,6 +217,10 @@ export class SessionComponent implements OnInit, AfterViewInit {
       maxReps = event.target.value;
     }
     this.exercises[index].repetitions = `${minReps}-${maxReps}`;
+  }
+
+  toggleDropset(index: number) {
+    this.exercises[index].dropset = !this.exercises[index].dropset;
   }
 
 }

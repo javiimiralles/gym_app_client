@@ -1,3 +1,46 @@
-<p>
-  workouts-list works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tus entrenamientos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- DatePicker -->
+<ion-grid class="ion-text-center">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="3">
+      <ion-button color="dark" fill="clear" class="circular-button" (click)="changeWeek(-1)">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6" style="font-size: small;">
+      {{ reorderDate(startDate) }} - {{ reorderDate(endDate) }}
+    </ion-col>
+    <ion-col size="3">
+      <ion-button color="dark" fill="clear" class="circular-button" (click)="changeWeek(1)">
+        <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<!-- Workouts -->
+<ion-card class="routine-card" *ngFor="let workout of workouts; let i = index">
+  <ion-card-content>
+    <div class="flex-container ion-align-items-center">
+      <div class="ion-text-left">
+        <ion-icon [color]="workout.session['difficulty'] === 'BAJA' ? 'success' : workout.session['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+        <ion-icon [color]="workout.session['difficulty'] === 'BAJA' ? 'success' : workout.session['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" [name]="workout.session['difficulty'] !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+        <ion-icon [color]="workout.session['difficulty'] === 'BAJA' ? 'success' : workout.session['difficulty'] === 'MEDIA' ? 'warning' : 'danger'" [name]="workout.session['difficulty'] === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+      </div>
+      <div class="ion-text-end">
+        <ion-button color="danger" size="small" fill="clear" (click)="presentDeleteWorkoutAlert($event, workout.uid)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+    <div class="ion-text-left">
+      <ion-card-title class="ion-text-left">{{ workout.session['name'] }}</ion-card-title>
+      <ion-card-subtitle>{{ describeDate(workout.date) }}</ion-card-subtitle>
+    </div>
+  </ion-card-content>
+</ion-card>

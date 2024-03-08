@@ -15,14 +15,22 @@ export class WorkoutsService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
+  getWorkouts(startDate: string, endDate: string) {
+    return this.http.get(`${environment.base_url}/workouts?userId=${this.userId}&startDate=${startDate}&endDate=${endDate}`, getHeaders());
+  }
+
   getLastWorkout(sessionId: string) {
     return this.http.get(`${environment.base_url}/workouts/last-workout/${sessionId}`, getHeaders());
   }
 
   createWorkout(workout: Workout) {
-    workout.date = formatDate(new Date());
+    (workout as any).date = formatDate(new Date());
     workout.user = this.userId;
     return this.http.post(`${environment.base_url}/workouts`, workout, getHeaders());
+  }
+
+  deleteWorkout(id: string) {
+    return this.http.delete(`${environment.base_url}/workouts/${id}`, getHeaders());
   }
 
 }

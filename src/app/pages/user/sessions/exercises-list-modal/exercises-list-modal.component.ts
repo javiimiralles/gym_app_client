@@ -48,7 +48,8 @@ export class ExercisesListModalComponent  implements OnInit {
       this.sessionsService.currentSessionPreview.exercises.push({
         exercise: exercise,
         sets: 3,
-        repetitions: '10-12'
+        repetitions: '10-12',
+        dropset: false
       });
       this.modalController.dismiss(false);
     } else {

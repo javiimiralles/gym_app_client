@@ -20,7 +20,7 @@
 </div>
 
 <div class="cards-container">
-  <ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/chest.webp)'" (click)="goToSession(session)">
+  <ion-card *ngFor="let session of sessions; let i = index" class="card-image" [style.background-image]="'url(./assets/images/'+ session.muscles[0] + '.webp)'" (click)="goToSession(session)">
     <ion-card-header>
       <div class="flex-container ion-align-items-center">
         <div class="ion-text-left">

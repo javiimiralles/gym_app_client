@@ -36,7 +36,7 @@
       <ion-card-title style="color: white;">{{ item.exercise['name'] }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-row class="ion-align-items-center">
+      <ion-row class="ion-align-items-center ion-margin-bottom">
         <ion-col size="2">
           <ion-input type="number" class="custom-input" [value]="item.sets" (ionInput)="onSetsInputChange($event, i)"></ion-input>
         </ion-col>
@@ -54,6 +54,7 @@
           REPS
         </ion-col>
       </ion-row>
+      <ion-toggle [checked]="item.dropset" (ionChange)="toggleDropset(i)">Añadir dropset</ion-toggle>
     </ion-card-content>
   </ion-card>
 </div>
