@@ -24,7 +24,7 @@
 </ion-grid>
 
 <!-- Workouts -->
-<ion-card class="routine-card" *ngFor="let workout of workouts; let i = index">
+<ion-card class="routine-card" *ngFor="let workout of workouts; let i = index" (click)="openWorkoutSummaryModal(workout.uid)">
   <ion-card-content>
     <div class="flex-container ion-align-items-center">
       <div class="ion-text-left">

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Workout } from 'src/app/models/workout.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WorkoutsService } from 'src/app/services/workouts.service';
+import { WorkoutSummaryModalComponent } from '../workout/workout-summary-modal/workout-summary-modal.component';
 
 @Component({
   selector: 'app-workouts-list',
@@ -22,7 +23,8 @@ export class WorkoutsListComponent  implements OnInit {
     private exceptionsService: ExceptionsService,
     private workoutsService: WorkoutsService,
     private alertController: AlertController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalController: ModalController
   ) {
     this.initDates();
   }
@@ -52,6 +54,16 @@ export class WorkoutsListComponent  implements OnInit {
         this.exceptionsService.throwError(err);
       }
     })
+  }
+
+  async openWorkoutSummaryModal(id: string) {
+    const modal = await this.modalController.create({
+      component: WorkoutSummaryModalComponent,
+      componentProps: {
+        workoutId: id
+      }
+    });
+    modal.present();
   }
 
   async presentDeleteWorkoutAlert(event: Event, id: string) {

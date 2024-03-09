@@ -45,6 +45,10 @@ export class RoutinesService {
     return this.http.put(`${environment.base_url}/routines/update-sessions/${id}`, data, getHeaders());
   }
 
+  skipSession(id: string) {
+    return this.http.put(`${environment.base_url}/routines/skip-session/${id}`, null, getHeaders());
+  }
+
   deleteRoutine(id: string) {
     return this.http.delete(`${environment.base_url}/routines/${id}`, getHeaders());
   }

@@ -15,6 +15,10 @@ export class WorkoutsService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
+  getWorkoutById(id: string) {
+    return this.http.get(`${environment.base_url}/workouts/${id}`, getHeaders());
+  }
+
   getWorkouts(startDate: string, endDate: string) {
     return this.http.get(`${environment.base_url}/workouts?userId=${this.userId}&startDate=${startDate}&endDate=${endDate}`, getHeaders());
   }

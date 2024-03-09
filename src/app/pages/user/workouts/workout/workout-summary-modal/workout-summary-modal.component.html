@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <div class="ion-padding">
-    <ion-textarea label="Notas" labelPlacement="floating" rows="10" class="custom-input" [(ngModel)]="note"></ion-textarea>
+    <ion-textarea label="Notas" labelPlacement="floating" rows="5" class="custom-input" [(ngModel)]="note" [disabled]="workoutId != null"></ion-textarea>
   </div>
   <ion-card class="exercise-preview-card" *ngFor="let exercise of workout.exercises; let i = index">
     <ion-card-header>
@@ -40,7 +40,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <div class="ion-padding">
+  <div *ngIf="!workoutId" class="ion-padding">
     <ion-button class="ion-margin-vertical" color="success" expand="block" (click)="createWorkout()">
       <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
     </ion-button>
