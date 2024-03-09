@@ -19,6 +19,8 @@ export class WorkoutsListComponent  implements OnInit {
   startDate: string;
   endDate: string;
 
+  loading: boolean = false;
+
   constructor(
     private exceptionsService: ExceptionsService,
     private workoutsService: WorkoutsService,
@@ -34,11 +36,14 @@ export class WorkoutsListComponent  implements OnInit {
   }
 
   loadWorkouts() {
+    this.loading = true;
     this.workoutsService.getWorkouts(this.startDate, this.endDate).subscribe({
       next: (res) => {
         this.workouts = res['workouts'];
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })

@@ -16,6 +16,8 @@ export class RoutinesListComponent  implements OnInit {
   routines: Routine[] = [];
   searchText: string = '';
 
+  loading: boolean = false;
+
   constructor(
     private exceptionsService: ExceptionsService,
     private routinesService: RoutinesService,
@@ -29,11 +31,14 @@ export class RoutinesListComponent  implements OnInit {
   }
 
   loadRoutines() {
+    this.loading = true;
     this.routinesService.getRoutines(this.searchText).subscribe({
       next: (res) => {
         this.routines = res['routines'];
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })

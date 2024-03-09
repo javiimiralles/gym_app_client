@@ -6,7 +6,7 @@
 </div>
 
 <!--=============== Cards de los ejercicios ====================-->
-<form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+<form *ngIf="!loading" [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
   <div formArrayName="exercises">
     <div *ngFor="let exerciseFormGroup of exercisesFormArray.controls; let i = index" [formGroupName]="i">
       <ion-card [id]="'exercise-' + i" class="exercise-preview-card" [class.open]="formVisibility[i]" (click)="toggleForm($event, i)">
@@ -50,3 +50,7 @@
     <ion-button color="success" expand="block" type="ngSubmit" [disabled]="!workoutForm.valid">Finalizar</ion-button>
   </div>
 </form>
+
+<div *ngIf="loading" class="center-text ion-padding ion-text-center">
+  <ion-spinner></ion-spinner>
+</div>

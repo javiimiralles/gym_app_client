@@ -4,37 +4,43 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-card class="routine-card" *ngFor="let routine of routines; let i = index" (click)="goToRoutine(routine.uid)">
-  <ion-card-content>
-    <div class="flex-container ion-align-items-center">
+<div *ngIf="!loading">
+  <ion-card class="routine-card" *ngFor="let routine of routines; let i = index" (click)="goToRoutine(routine.uid)">
+    <ion-card-content>
+      <div class="flex-container ion-align-items-center">
+        <div class="ion-text-left">
+          <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
+          <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="routine.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
+          <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="routine.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        </div>
+        <div class="ion-text-end">
+          <ion-button color="danger" size="small" fill="clear" (click)="presentDeleteRoutineAlert($event, routine.uid)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
       <div class="ion-text-left">
-        <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" name="flash"></ion-icon>
-        <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="routine.difficulty !== 'BAJA' ? 'flash' : 'flash-outline'"></ion-icon>
-        <ion-icon [color]="routine.difficulty === 'BAJA' ? 'success' : routine.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="routine.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
+        <ion-card-title class="ion-text-left">{{ routine.name }}</ion-card-title>
+        <ion-card-subtitle>{{ routine.sessions.length }} SESIONES</ion-card-subtitle>
       </div>
       <div class="ion-text-end">
-        <ion-button color="danger" size="small" fill="clear" (click)="presentDeleteRoutineAlert($event, routine.uid)">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-button>
+        <ion-chip *ngIf="routine.active" color="success" (click)="presentChangeActiveAlert($event, routine.uid, false)">
+          <ion-icon class="ion-margin-end" name="checkmark-done-outline"></ion-icon> ACTIVA
+        </ion-chip>
+        <ion-chip *ngIf="!routine.active" color="warning" (click)="presentChangeActiveAlert($event, routine.uid, true)">
+          <ion-icon class="ion-margin-end" name="checkmark-outline"></ion-icon> ACTIVAR
+        </ion-chip>
       </div>
-    </div>
-    <div class="ion-text-left">
-      <ion-card-title class="ion-text-left">{{ routine.name }}</ion-card-title>
-      <ion-card-subtitle>{{ routine.sessions.length }} SESIONES</ion-card-subtitle>
-    </div>
-    <div class="ion-text-end">
-      <ion-chip *ngIf="routine.active" color="success" (click)="presentChangeActiveAlert($event, routine.uid, false)">
-        <ion-icon class="ion-margin-end" name="checkmark-done-outline"></ion-icon> ACTIVA
-      </ion-chip>
-      <ion-chip *ngIf="!routine.active" color="warning" (click)="presentChangeActiveAlert($event, routine.uid, true)">
-        <ion-icon class="ion-margin-end" name="checkmark-outline"></ion-icon> ACTIVAR
-      </ion-chip>
-    </div>
-  </ion-card-content>
-</ion-card>
+    </ion-card-content>
+  </ion-card>
 
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button color="secondary" (click)="createRoutine()">
-    <ion-icon name="add-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button color="secondary" (click)="createRoutine()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>
+
+<div *ngIf="loading" class="center-text ion-padding ion-text-center">
+  <ion-spinner></ion-spinner>
+</div>

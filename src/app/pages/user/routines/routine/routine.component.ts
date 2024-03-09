@@ -28,6 +28,8 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
 
   mode: string;
 
+  loading: boolean = false;
+
   constructor(
     private exceptionsService: ExceptionsService,
     private router: Router,
@@ -76,6 +78,7 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadRoutine() {
+    this.loading = true;
     this.routinesService.getRoutineById(this.routineId).subscribe({
       next: (res) => {
         this.routine = res['routine'];
@@ -83,8 +86,10 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
         this.description = this.routine.description;
         this.sessions = this.routine.sessions as Session[];
         this.sessionIds = (this.sessions as any[]).map(session => session._id);
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
         this.router.navigateByUrl('/user/routines-list');
       }

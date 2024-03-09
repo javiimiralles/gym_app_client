@@ -30,7 +30,7 @@
     </ion-col>
   </ion-row>
 
-  <div *ngIf="!noResultsFound">
+  <div *ngIf="!noResultsFound && !loading">
     <ion-card *ngFor="let exercise of searchResults" class="exercise-preview-card" (click)="addExerciseToSession(exercise)">
       <ion-card-header>
         <div class="flex-container">
@@ -49,7 +49,7 @@
     <ion-button style="color: white;" *ngIf="searchResults.length > 0 && searchResults.length % 10 == 0" fill="clear" expand="block" (click)="loadExercises()">Ver más</ion-button>
   </div>
 
-  <div *ngIf="noResultsFound" class="center-text ion-padding">
+  <div *ngIf="noResultsFound && !loading" class="center-text ion-padding">
     <h2>No se han encontrado resultados</h2>
   </div>
 </ion-content>
@@ -59,3 +59,7 @@
     <ion-icon name="add-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+<div *ngIf="!noResultsFound && loading" class="center-text ion-padding ion-text-center">
+  <ion-spinner></ion-spinner>
+</div>

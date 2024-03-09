@@ -32,6 +32,8 @@ export class WorkoutComponent  implements OnInit {
   formVisibility: boolean[] = [];
   workoutForm: FormGroup;
 
+  loading: boolean = false;
+
   constructor(
     private exceptionsService: ExceptionsService,
     private activatedRoute: ActivatedRoute,
@@ -55,6 +57,7 @@ export class WorkoutComponent  implements OnInit {
   }
 
   loadSession(id: string) {
+    this.loading = true;
     this.sessionsService.getSessionById(id).subscribe({
       next: (res) => {
         this.session = res['session'];
@@ -69,8 +72,10 @@ export class WorkoutComponent  implements OnInit {
           this.difficulties.push((itemExercise.exercise as Exercise).difficulty);
         }
         this.formVisibility = this.exercises.map(() => false);
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })

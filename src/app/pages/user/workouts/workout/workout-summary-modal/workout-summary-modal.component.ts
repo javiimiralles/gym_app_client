@@ -22,6 +22,8 @@ export class WorkoutSummaryModalComponent  implements OnInit {
 
   note: string;
 
+  loading: boolean = false;
+
   constructor(
     private workoutsService: WorkoutsService,
     private toastService: ToastService,
@@ -37,6 +39,7 @@ export class WorkoutSummaryModalComponent  implements OnInit {
   }
 
   loadWorkout() {
+    this.loading = true;
     this.workoutsService.getWorkoutById(this.workoutId).subscribe({
       next: (res) => {
         this.workout = res['workout'];
@@ -48,8 +51,10 @@ export class WorkoutSummaryModalComponent  implements OnInit {
           this.names.push((this.workout.exercises[i].exercise as Exercise).name);
           this.difficulties.push((sessionExercises[i].exercise as Exercise).difficulty);
         }
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.modalController.dismiss();
       }
     })

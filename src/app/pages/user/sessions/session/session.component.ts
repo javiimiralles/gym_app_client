@@ -26,6 +26,8 @@ export class SessionComponent implements OnInit, AfterViewInit {
   routineId: string;
   mode: string;
 
+  loading: boolean = false;
+
   constructor(
     private sessionsService: SessionsService,
     private activatedRoute: ActivatedRoute,
@@ -70,13 +72,16 @@ export class SessionComponent implements OnInit, AfterViewInit {
   }
 
   loadSession() {
+    this.loading = true;
     this.sessionsService.getSessionById(this.sessionId).subscribe({
       next: (res) => {
         this.session = res['session'];
         this.name = this.session.name;
         this.exercises = this.session.exercises;
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })

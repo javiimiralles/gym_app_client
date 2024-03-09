@@ -26,6 +26,8 @@ export class ExercisesListModalComponent  implements OnInit {
 
   muscles: string[] = Object.keys(MuscleEnum);
 
+  loading: boolean = false;
+
   constructor(
     private exceptionsService: ExceptionsService,
     private modalController: ModalController,
@@ -36,12 +38,15 @@ export class ExercisesListModalComponent  implements OnInit {
   ngOnInit() {}
 
   loadExercises() {
+    this.loading = true;
     this.exercisesService.getExercises(this.searchText, this.difficulty, this.muscle, this.nResults).subscribe({
       next: (res) => {
         this.searchResults = res['exercises'];
         this.noResultsFound = this.searchResults.length === 0;
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })
