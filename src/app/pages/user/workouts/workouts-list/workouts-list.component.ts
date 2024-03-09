@@ -75,14 +75,14 @@ export class WorkoutsListComponent  implements OnInit {
       buttons: [
         {
           text: 'Eliminar',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             this.deleteWorkout(id);
           }
         },
         {
           text: 'Cancelar',
-          role: 'confirm',
+          role: 'cancel',
         }
       ]
     });

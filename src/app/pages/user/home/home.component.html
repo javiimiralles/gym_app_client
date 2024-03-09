@@ -52,8 +52,12 @@
   </ion-card>
 </div>
 
-<div *ngIf="!nextSession" class="center-text ion-padding ion-text-center">
+<div *ngIf="!nextSession && !loading" class="center-text ion-padding ion-text-center">
   <h1>
     No tienes ninguna rutina activa
   </h1>
+</div>
+
+<div *ngIf="!nextSession && loading" class="center-text ion-padding ion-text-center">
+  <ion-spinner></ion-spinner>
 </div>

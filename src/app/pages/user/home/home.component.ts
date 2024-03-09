@@ -19,6 +19,7 @@ export class HomeComponent  implements OnInit {
   exercises: Exercise[] = [];
   sets: number[] = [];
   totalSets: number = 0;
+  loading: boolean = true;
 
   constructor(
     private exceptionsService: ExceptionsService,
@@ -43,9 +44,11 @@ export class HomeComponent  implements OnInit {
             this.sets.push(itemExercise.sets);
             this.totalSets += itemExercise.sets;
           }
+          this.loading = false;
         }
       },
       error: (err) => {
+        this.loading = false;
         this.exceptionsService.throwError(err);
       }
     })
@@ -69,14 +72,14 @@ export class HomeComponent  implements OnInit {
       buttons: [
         {
           text: 'Saltar',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             this.skipSession();
           }
         },
         {
           text: 'Cancelar',
-          role: 'confirm',
+          role: 'cancel',
         }
       ]
     });

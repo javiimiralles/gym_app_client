@@ -71,14 +71,14 @@ export class RoutinesListComponent  implements OnInit {
       buttons: [
         {
           text: 'Eliminar',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             this.deleteRoutine(id);
           }
         },
         {
           text: 'Cancelar',
-          role: 'confirm',
+          role: 'cancel',
         }
       ]
     });
@@ -96,14 +96,14 @@ export class RoutinesListComponent  implements OnInit {
       buttons: [
         {
           text: activating ? 'Activar' : 'Desactivar',
-          role: 'confirm',
+          role: activating ? '' : 'confirm',
           handler: () => {
             this.changeActiveRoutine(id);
           }
         },
         {
           text: 'Cancelar',
-          role: 'confirm',
+          role: 'cancel',
         }
       ]
     });

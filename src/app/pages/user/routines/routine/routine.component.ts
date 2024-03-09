@@ -117,7 +117,7 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
       buttons: [
         {
           text: 'Eliminar',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             this.sessionIds = this.sessionIds.filter(elem => elem !== session._id);
             this.removedSessions.push(session._id);
@@ -126,7 +126,7 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         {
           text: 'Cancelar',
-          role: 'confirm',
+          role: 'cancel',
         }
       ]
     });
@@ -143,11 +143,11 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
       buttons: [
         {
           text: 'Continuar',
-          role: 'confirm',
+          role: 'cancel',
         },
         {
           text: 'Descartar cambios',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             if(this.mode === 'creating') {
               this.deleteRoutine();

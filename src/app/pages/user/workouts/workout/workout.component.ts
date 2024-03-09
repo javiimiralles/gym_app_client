@@ -118,11 +118,11 @@ export class WorkoutComponent  implements OnInit {
       buttons: [
         {
           text: 'Continuar sesión',
-          role: 'confirm',
+          role: 'cancel',
         },
         {
           text: 'Descartar sesión',
-          role: 'cancel',
+          role: 'confirm',
           handler: () => {
             this.router.navigateByUrl('/user/home');
           }
