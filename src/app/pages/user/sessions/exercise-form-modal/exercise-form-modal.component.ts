@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Exercise } from 'src/app/models/exercise.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
@@ -11,7 +11,7 @@ import { MuscleEnum } from 'src/app/enums/MuscleEnum';
   templateUrl: './exercise-form-modal.component.html',
   styleUrls: ['./exercise-form-modal.component.scss'],
 })
-export class ExerciseFormModalComponent  implements OnInit {
+export class ExerciseFormModalComponent {
 
   @Input() sessionId: string;
 
@@ -21,14 +21,14 @@ export class ExerciseFormModalComponent  implements OnInit {
 
   exercise: Exercise = new Exercise('', null, [], 'BAJA');
 
+  saving: boolean = false;
+
   constructor(
     private modalController: ModalController,
     private exceptionsService: ExceptionsService,
     private exercisesService: ExercisesService,
     private toastService: ToastService
   ) { }
-
-  ngOnInit() {}
 
   closeModal() {
     this.modalController.dismiss(null);
@@ -66,9 +66,11 @@ export class ExerciseFormModalComponent  implements OnInit {
   createExercise() {
     if(!this.validate()) return;
 
+    this.saving = true;
     this.exercise.muscles = this.selectedMuscles;
     this.exercisesService.createExercise(this.exercise).subscribe({
       next: () => {
+        this.saving = false;
         this.toastService.presentToast('Ejercicio creado', 'success');
         this.modalController.dismiss();
       },

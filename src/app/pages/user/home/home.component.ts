@@ -19,7 +19,9 @@ export class HomeComponent  implements OnInit {
   exercises: Exercise[] = [];
   sets: number[] = [];
   totalSets: number = 0;
+
   loading: boolean = true;
+  skippingSession: boolean = false;
 
   constructor(
     private exceptionsService: ExceptionsService,
@@ -33,6 +35,7 @@ export class HomeComponent  implements OnInit {
   }
 
   loadNextSession() {
+    this.loading = true;
     this.routinesService.getNextSession().subscribe({
       next: (res) => {
         if(res['nextSession']) {
@@ -55,12 +58,15 @@ export class HomeComponent  implements OnInit {
   }
 
   skipSession() {
+    this.skippingSession = true;
     this.routinesService.skipSession(this.activeRoutine.uid).subscribe({
       next: () => {
+        this.skippingSession = false;
         this.loadNextSession();
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
+        this.skippingSession = false;
       }
     })
   }

@@ -23,12 +23,13 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
   sessionIds: string[] = [];
   removedSessions: string[] = [];
 
+  loading: boolean = false;
+  saving: boolean = false;
+
   routineId: string;
   routine: Routine = new Routine('');
 
   mode: string;
-
-  loading: boolean = false;
 
   constructor(
     private exceptionsService: ExceptionsService,
@@ -58,6 +59,8 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
     const container = document.querySelector('.cards-container');
     Sortable.create(container, {
       animation: 200,
+      delay: 200,
+      delayOnTouchOnly: true,
       onEnd: (event) => {
         const { oldIndex, newIndex } = event;
 
@@ -69,6 +72,9 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sessionIds.splice(newIndex, 0, movedElementId);
 
         this.changeDetectorRef.markForCheck();
+      },
+      onStart: () => {
+        window.navigator.vibrate(50); // Vibra por 50 milisegundos
       }
     });
   }
@@ -89,9 +95,9 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = false;
       },
       error: (err) => {
-        this.loading = false;
         this.exceptionsService.throwError(err);
         this.router.navigateByUrl('/user/routines-list');
+        this.loading = false;
       }
     })
   }
@@ -168,16 +174,19 @@ export class RoutineComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   updateRoutine() {
+    this.saving = true;
     this.deleteSessions(); // elimina definitivamente las sesiones que se hayan eliminado
     this.routine.name = this.name;
     this.routine.description = this.description;
     this.routine.sessions = this.sessionIds;
     this.routinesService.updateRoutine(this.routine).subscribe({
       next: () => {
+        this.saving = false;
         this.toastService.presentToast('Rutina guardada', 'success');
         this.router.navigateByUrl('/user/routines-list');
       },
       error: (err) => {
+        this.saving = false;
         this.exceptionsService.throwError(err);
       }
     });

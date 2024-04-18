@@ -8,15 +8,15 @@
 <ion-grid class="ion-text-center">
   <ion-row class="ion-align-items-center">
     <ion-col size="3">
-      <ion-button color="dark" fill="clear" class="circular-button" (click)="changeWeek(-1)">
+      <ion-button color="light" fill="clear" class="circular-button" (click)="changeWeek(-1)">
         <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-col>
-    <ion-col size="6" style="font-size: small;">
+    <ion-col size="6" style="font-size: small; color: white;">
       {{ reorderDate(startDate) }} - {{ reorderDate(endDate) }}
     </ion-col>
     <ion-col size="3">
-      <ion-button color="dark" fill="clear" class="circular-button" (click)="changeWeek(1)">
+      <ion-button color="light" fill="clear" class="circular-button" (click)="changeWeek(1)">
         <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
       </ion-button>
     </ion-col>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="ion-text-left">
-      <ion-card-title class="ion-text-left">{{ workout.session['name'] }}</ion-card-title>
+      <ion-card-title style="color: white;" class="ion-text-left">{{ workout.session['name'] }}</ion-card-title>
       <ion-card-subtitle>{{ describeDate(workout.date) }}</ion-card-subtitle>
     </div>
   </ion-card-content>

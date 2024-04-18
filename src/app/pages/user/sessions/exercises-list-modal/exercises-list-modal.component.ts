@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Exercise } from 'src/app/models/exercise.model';
 import { ExceptionsService } from 'src/app/services/exceptions.service';
@@ -12,7 +12,7 @@ import { MuscleEnum } from 'src/app/enums/MuscleEnum';
   templateUrl: './exercises-list-modal.component.html',
   styleUrls: ['./exercises-list-modal.component.scss'],
 })
-export class ExercisesListModalComponent  implements OnInit {
+export class ExercisesListModalComponent {
 
   @Input() sessionId: string;
   @Input() sessionIndex: number;
@@ -34,8 +34,6 @@ export class ExercisesListModalComponent  implements OnInit {
     private exercisesService: ExercisesService,
     private sessionsService: SessionsService
   ) { }
-
-  ngOnInit() {}
 
   loadExercises() {
     this.loading = true;

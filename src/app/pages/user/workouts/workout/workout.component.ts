@@ -72,6 +72,7 @@ export class WorkoutComponent  implements OnInit {
           this.difficulties.push((itemExercise.exercise as Exercise).difficulty);
         }
         this.formVisibility = this.exercises.map(() => false);
+        this.formVisibility[0] = true;
         this.loading = false;
       },
       error: (err) => {

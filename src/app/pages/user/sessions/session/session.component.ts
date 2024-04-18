@@ -27,6 +27,7 @@ export class SessionComponent implements OnInit, AfterViewInit {
   mode: string;
 
   loading: boolean = false;
+  saving: boolean = false;
 
   constructor(
     private sessionsService: SessionsService,
@@ -56,6 +57,8 @@ export class SessionComponent implements OnInit, AfterViewInit {
     const container = document.querySelector('.cards-container');
     Sortable.create(container, {
       animation: 200,
+      delay: 200,
+      delayOnTouchOnly: true,
       onEnd: (event) => {
         const { oldIndex, newIndex } = event;
 
@@ -67,6 +70,9 @@ export class SessionComponent implements OnInit, AfterViewInit {
           this.sessionsService.currentSessionPreview.exercises = this.exercises;
         }
         this.changeDetectorRef.markForCheck();
+      },
+      onStart: () => {
+        window.navigator.vibrate(50); // Vibra por 50 milisegundos
       }
     });
   }
@@ -81,13 +87,14 @@ export class SessionComponent implements OnInit, AfterViewInit {
         this.loading = false;
       },
       error: (err) => {
-        this.loading = false;
         this.exceptionsService.throwError(err);
+        this.loading = false;
       }
     })
   }
 
   saveSession() {
+    this.saving = true;
     if(this.sessionId === 'new') {
       this.createSession();
     } else {
@@ -103,16 +110,19 @@ export class SessionComponent implements OnInit, AfterViewInit {
       next: (res) => {
         this.routinesService.updateRoutineSessions(this.routineId, res['session'].uid, 'add').subscribe({
           next: () => {
+            this.saving = false;
             this.toastService.presentToast('Sesión creada', 'success');
             this.goToRoutine();
           },
           error: (err) => {
             this.exceptionsService.throwError(err);
+            this.saving = false;
           }
         })
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
+        this.saving = false;
       }
     })
   }
@@ -124,11 +134,13 @@ export class SessionComponent implements OnInit, AfterViewInit {
 
     this.sessionsService.updateSession(this.session).subscribe({
       next: () => {
+        this.saving = false;
         this.toastService.presentToast('Sesión editada', 'success');
         this.goToRoutine();
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
+        this.saving = false;
       }
     })
   }

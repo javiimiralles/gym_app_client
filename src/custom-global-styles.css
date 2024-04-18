@@ -6,7 +6,7 @@
 }
 
 body {
-  --ion-background-color: var(--ion-color-light);
+  --ion-background-color: var(--ion-color-dark);
 }
 
 /* Estilos generales */
@@ -37,8 +37,6 @@ body {
 ion-toolbar {
   --background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
   color: white;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
 }
 
 /* Inputs */
@@ -66,6 +64,12 @@ ion-input.custom-input.has-focus, ion-textarea.custom-input.has-focus {
 /* Buttons */
 ion-button {
   --border-radius: 15px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+}
+
+ion-button.ion-color-success button {
+  background-color: red;
 }
 
 .button-icon-right {
@@ -108,6 +112,10 @@ ion-card.card-image {
   background-repeat: no-repeat;
 }
 
+ion-card.card-image ion-card-header ion-card-title {
+  color: white;
+}
+
 ion-card.card-image::before {
   content: '';
   position: absolute;
@@ -116,6 +124,11 @@ ion-card.card-image::before {
   bottom: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
+}
+
+/* Spinner */
+ion-spinner {
+  color: white;
 }
 
 /* Alerts */
@@ -141,4 +154,9 @@ ion-fab {
   position: fixed;
   bottom: 10px;
   right: 10px;
+}
+
+/* Alerts */
+.alert-radio-label.sc-ion-alert-md {
+  color: white;
 }

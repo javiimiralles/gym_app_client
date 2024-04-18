@@ -23,6 +23,7 @@ export class WorkoutSummaryModalComponent  implements OnInit {
   note: string;
 
   loading: boolean = false;
+  saving: boolean = false;
 
   constructor(
     private workoutsService: WorkoutsService,
@@ -55,21 +56,25 @@ export class WorkoutSummaryModalComponent  implements OnInit {
       },
       error: (err) => {
         this.loading = false;
+        this.exceptionsService.throwError(err);
         this.modalController.dismiss();
       }
     })
   }
 
   createWorkout() {
+    this.saving = true;
     this.workout.note = this.note;
     this.workoutsService.createWorkout(this.workout).subscribe({
       next: () => {
         this.modalController.dismiss();
         this.toastService.presentToast('Sesión guardada', 'success');
         this.router.navigateByUrl('/user/home');
+        this.saving = false;
       },
       error: (err) => {
         this.exceptionsService.throwError(err);
+        this.saving = false;
       }
     })
   }

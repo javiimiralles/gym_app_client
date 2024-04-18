@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">jFitness</string>
+    <string name="title_activity_main">jFitness</string>
+    <string name="package_name">io.ionic.jFitness</string>
+    <string name="custom_url_scheme">io.ionic.jFitness</string>
+</resources>

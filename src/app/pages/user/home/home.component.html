@@ -18,8 +18,9 @@
           <ion-icon [color]="nextSession.difficulty === 'BAJA' ? 'success' : nextSession.difficulty === 'MEDIA' ? 'warning' : 'danger'" [name]="nextSession.difficulty === 'ALTA' ? 'flash' : 'flash-outline'"></ion-icon>
         </div>
         <div class="ion-text-end">
-          <ion-button color="danger" size="small" (click)="presentSkipSessionAlert()">
-            <ion-icon slot="start" name="play-forward"></ion-icon>
+          <ion-button color="danger" size="small" [disabled]="skippingSession" (click)="presentSkipSessionAlert()">
+            <ion-icon *ngIf="!skippingSession" slot="start" name="play-forward"></ion-icon>
+            <ion-spinner *ngIf="skippingSession" class="ion-margin-end" name="crescent"></ion-spinner>
             Saltar sesión
           </ion-button>
         </div>

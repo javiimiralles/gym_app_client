@@ -57,8 +57,10 @@
           </ion-col>
         </ion-row>
       </div>
-      <ion-button class="ion-text-end" color="success" expand="block" [disabled]="selectedMuscles.length === 0 || exercise.name == null || exercise.name === ''" (click)="createExercise()">
-        <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+      <ion-button class="ion-text-end" color="success" expand="block" [disabled]="selectedMuscles.length === 0 || exercise.name === null || exercise.name === '' || saving" (click)="createExercise()">
+        <ion-icon *ngIf="!saving" class="ion-margin-end" name="save-outline"></ion-icon>
+        <ion-spinner *ngIf="saving" class="ion-margin-end" name="crescent"></ion-spinner>
+        Guardar
       </ion-button>
     </ion-card-content>
   </ion-card>

@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { UsersService } from '../services/users.service';
 import { tap } from 'rxjs/operators';
+import { ToastService } from '../services/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { tap } from 'rxjs/operators';
 export class NoAuthGuard implements CanActivate {
 
   constructor(private usersService: UsersService,
-              private router: Router) {}
+              private router: Router,
+              private toastService: ToastService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -21,7 +23,8 @@ export class NoAuthGuard implements CanActivate {
                   if (!resp) {
                     switch (this.usersService.role) {
                       case 'ADMIN':
-                        this.router.navigateByUrl('/admin/dashboard-admin');
+                        this.toastService.presentToast('El usuario es un administrador', 'danger')
+                          this.router.navigateByUrl('/login');
                         break;
                       case 'USER':
                         this.router.navigateByUrl('/user/home');

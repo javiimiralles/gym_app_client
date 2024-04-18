@@ -9,7 +9,7 @@
 <ion-content>
   <div *ngIf="!loading">
     <div class="ion-padding">
-      <ion-textarea label="Notas" labelPlacement="floating" rows="5" class="custom-input" [(ngModel)]="note" [disabled]="workoutId != null"></ion-textarea>
+      <ion-textarea label="Notas" labelPlacement="floating" rows="5" class="custom-input" [(ngModel)]="note" [disabled]="workoutId !== null"></ion-textarea>
     </div>
     <ion-card class="exercise-preview-card" *ngFor="let exercise of workout.exercises; let i = index">
       <ion-card-header>
@@ -42,8 +42,10 @@
       </ion-card-content>
     </ion-card>
     <div *ngIf="!workoutId" class="ion-padding">
-      <ion-button class="ion-margin-vertical" color="success" expand="block" (click)="createWorkout()">
-        <ion-icon class="ion-margin-end" name="save-outline"></ion-icon> Guardar
+      <ion-button class="ion-margin-vertical" color="success" expand="block" [disabled]="saving" (click)="createWorkout()">
+        <ion-icon *ngIf="!saving" class="ion-margin-end" name="save-outline"></ion-icon>
+        <ion-spinner *ngIf="saving" class="ion-margin-end" name="crescent"></ion-spinner>
+        Guardar
       </ion-button>
     </div>
   </div>

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // base_url:'http://localhost:8080/api'
-  base_url:'https://gymappapi-production.up.railway.app/api'
+  base_url:'http://localhost:8080/api'
+  // base_url:'https://gymappapi-production.up.railway.app/api'
 };
 
 /*
