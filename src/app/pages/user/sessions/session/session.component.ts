@@ -198,7 +198,6 @@ export class SessionComponent implements OnInit, AfterViewInit {
       this.loadSession();
     } else if(data == false) {
       this.exercises = this.sessionsService.currentSessionPreview.exercises;
-      console.log(this.exercises);
       this.changeDetectorRef.markForCheck();
     }
   }
